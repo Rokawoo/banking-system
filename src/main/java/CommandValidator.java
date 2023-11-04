@@ -41,3 +41,44 @@ abstract class CommandValidatorBase {
 
     public abstract boolean validate(String[] commandData);
 }
+
+public class CreateValidator extends CommandValidatorBase {
+    public CreateValidator(Bank bank) {
+        super(bank);
+    }
+
+    @Override
+    public boolean validate(String[] commandData) {
+        if (commandData.length != 4 && commandData.length != 5) {
+            return false;
+        }
+
+        String accountType = commandData[1].toLowerCase();
+        String accountNumber = commandData[2];
+        float apr;
+
+        try {
+            Integer.parseInt(accountNumber);
+            apr = Float.parseFloat(commandData[3]);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        if (accountNumber.length() != 8 || bank.retrieveAccount(accountNumber) != null || apr < 0 || apr > 10) {
+            return false;
+        }
+
+        if (Arrays.asList("savings", "checking").contains(accountType)) {
+            return commandData.length == 4;
+        } else if (accountType.equals("cd") && commandData.length == 5) {
+            try {
+                float cdInitBalance = Float.parseFloat(commandData[4]);
+                return cdInitBalance >= 1000 && cdInitBalance <= 10000;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+}
