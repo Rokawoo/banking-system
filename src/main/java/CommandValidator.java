@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +31,6 @@ public class CommandValidator {
     }
 }
 
-import java.util.Arrays;
-
 abstract class CommandValidatorBase {
     protected Bank bank;
 
@@ -42,7 +41,7 @@ abstract class CommandValidatorBase {
     public abstract boolean validate(String[] commandData);
 }
 
-public class CreateValidator extends CommandValidatorBase {
+class CreateValidator extends CommandValidatorBase {
     public CreateValidator(Bank bank) {
         super(bank);
     }
@@ -77,6 +76,43 @@ public class CreateValidator extends CommandValidatorBase {
             } catch (NumberFormatException e) {
                 return false;
             }
+        }
+
+        return false;
+    }
+}
+
+class DepositValidator extends CommandValidatorBase {
+    public DepositValidator(Bank bank) {
+        super(bank);
+    }
+
+    @Override
+    public boolean validate(String[] commandData) {
+        if (commandData.length != 3) {
+            return false;
+        }
+
+        String accountNumber = commandData[1];
+        float balanceToDeposit;
+
+        try {
+            Integer.parseInt(accountNumber);
+            balanceToDeposit = Float.parseFloat(commandData[2]);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        Account account = bank.retrieveAccount(accountNumber);
+
+        if (account == null || accountNumber.length() != 8) {
+            return false;
+        }
+
+        if (account instanceof Savings && balanceToDeposit >= 0 && balanceToDeposit <= 2500) {
+            return true;
+        } else if (account instanceof Checking && balanceToDeposit >= 0 && balanceToDeposit <= 1000) {
+            return true;
         }
 
         return false;
