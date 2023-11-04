@@ -29,3 +29,15 @@ public class CommandValidator {
         }
     }
 }
+
+import java.util.Arrays;
+
+abstract class CommandValidatorBase {
+    protected Bank bank;
+
+    public CommandValidatorBase(Bank bank) {
+        this.bank = bank;
+    }
+
+    public abstract boolean validate(String[] commandData);
+}
