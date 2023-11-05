@@ -223,6 +223,12 @@ public class CommandValidatorTest {
     }
 
     @Test
+    void savings_checking_noncase_sensitive_deposit_command_valid() {
+        boolean actual = commandValidator.validate("dEpOSiT 00000001 0");
+        assertTrue(actual);
+    }
+
+    @Test
     void savings_checking_0_zero_amount_deposited_valid() {
         boolean actual = commandValidator.validate("Deposit 00000001 0");
         assertTrue(actual);
