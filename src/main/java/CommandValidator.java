@@ -33,43 +33,12 @@ public class CommandValidator {
 
 abstract class CommandValidatorBase {
     protected Bank bank;
-    protected ValidationUtils validationUtils;
 
     public CommandValidatorBase(Bank bank) {
         this.bank = bank;
-        this.validationUtils = new ValidationUtils();
     }
 
     public abstract boolean validate(String[] commandData);
-}
-
-class ValidationUtils {
-    public boolean isValidNumber(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    public boolean isValidFloat(String str) {
-        try {
-            Float.parseFloat(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    public boolean isValidAccountId(String accountId) {
-        return accountId.matches("\\d{8}"); // Check if it's an 8-digit account ID
-    }
-
-    public boolean accountExists(Bank bank, String accountId) {
-        return bank.retrieveAccount(accountId) != null;
-    }
-
 }
 
 class CreateValidator extends CommandValidatorBase {
@@ -87,17 +56,17 @@ class CreateValidator extends CommandValidatorBase {
         String accountNumber = commandData[2];
         String aprStr = commandData[3];
 
-        if (!validationUtils.isValidNumber(accountNumber) || !validationUtils.isValidFloat(aprStr)) {
+        if (!ValidationUtils.isValidNumber(accountNumber) || !ValidationUtils.isValidFloat(aprStr)) {
             return false;
         }
 
-        if (!validationUtils.isValidAccountId(accountNumber)) {
+        if (!ValidationUtils.isValidAccountId(accountNumber)) {
             return false;
         }
 
         float apr = Float.parseFloat(aprStr);
 
-        if (validationUtils.accountExists(bank, accountNumber) || apr < 0 || apr > 10) {
+        if (ValidationUtils.accountExists(bank, accountNumber) || apr < 0 || apr > 10) {
             return false;
         }
 
@@ -106,7 +75,7 @@ class CreateValidator extends CommandValidatorBase {
         } else if (accountType.equals("cd") && commandData.length == 5) {
             String cdInitBalanceStr = commandData[4];
 
-            if (!validationUtils.isValidFloat(cdInitBalanceStr)) {
+            if (!ValidationUtils.isValidFloat(cdInitBalanceStr)) {
                 return false;
             }
 
@@ -133,11 +102,11 @@ class DepositValidator extends CommandValidatorBase {
         String accountNumber = commandData[1];
         String balanceToDepositStr = commandData[2];
 
-        if (!validationUtils.isValidNumber(accountNumber) || !validationUtils.isValidFloat(balanceToDepositStr)) {
+        if (!ValidationUtils.isValidNumber(accountNumber) || !ValidationUtils.isValidFloat(balanceToDepositStr)) {
             return false;
         }
 
-        if (!validationUtils.isValidAccountId(accountNumber) && validationUtils.accountExists(bank, accountNumber)) {
+        if (!ValidationUtils.isValidAccountId(accountNumber) && ValidationUtils.accountExists(bank, accountNumber)) {
             return false;
         }
 
@@ -147,12 +116,40 @@ class DepositValidator extends CommandValidatorBase {
             return false;
         }
 
-        if (account instanceof Savings && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 2500) {
+        if ("savings".equals(account.getType()) && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 2500) {
             return true;
-        } else if (account instanceof Checking && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 1000) {
+        } else if ("checking".equals(account.getType()) && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 1000) {
             return true;
         }
 
         return false;
+    }
+}
+
+class ValidationUtils {
+    public static boolean isValidNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isValidFloat(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isValidAccountId(String accountId) {
+        return accountId.matches("\\d{8}"); // Check if it's an 8-digit account ID
+    }
+
+    public static boolean accountExists(Bank bank, String accountId) {
+        return bank.retrieveAccount(accountId) != null;
     }
 }
