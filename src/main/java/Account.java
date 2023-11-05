@@ -5,7 +5,7 @@ public abstract class Account {
     private double apr;
     private double balance;
 
-    public Account(String type, double apr, double balance) {
+    protected Account(String type, double apr, double balance) {
         this.type = type;
         this.apr = apr;
         this.balance = balance;

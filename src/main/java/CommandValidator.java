@@ -34,7 +34,7 @@ public class CommandValidator {
 abstract class CommandValidatorBase {
     protected Bank bank;
 
-    public CommandValidatorBase(Bank bank) {
+    protected CommandValidatorBase(Bank bank) {
         this.bank = bank;
     }
 
@@ -110,15 +110,21 @@ class DepositValidator extends CommandValidatorBase {
             return false;
         }
 
+        if (!ValidationUtils.isValidFloat(balanceToDepositStr)) {
+            return  false;
+        }
+
         Account account = bank.retrieveAccount(accountNumber);
 
         if (account == null) {
             return false;
         }
 
-        if ("savings".equals(account.getType()) && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 2500) {
+        float balanceToDeposit = Float.parseFloat(balanceToDepositStr);
+
+        if ("savings".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 2500)) {
             return true;
-        } else if ("checking".equals(account.getType()) && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 1000) {
+        } else if ("checking".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 1000)) {
             return true;
         }
 
