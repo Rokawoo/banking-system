@@ -33,12 +33,43 @@ public class CommandValidator {
 
 abstract class CommandValidatorBase {
     protected Bank bank;
+    protected ValidationUtils validationUtils;
 
     public CommandValidatorBase(Bank bank) {
         this.bank = bank;
+        this.validationUtils = new ValidationUtils();
     }
 
     public abstract boolean validate(String[] commandData);
+}
+
+class ValidationUtils {
+    public boolean isValidNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean isValidFloat(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean isValidAccountId(String accountId) {
+        return accountId.matches("\\d{8}"); // Check if it's an 8-digit account ID
+    }
+
+    public boolean accountExists(Bank bank, String accountId) {
+        return bank.retrieveAccount(accountId) != null;
+    }
+
 }
 
 class CreateValidator extends CommandValidatorBase {
@@ -54,28 +85,34 @@ class CreateValidator extends CommandValidatorBase {
 
         String accountType = commandData[1].toLowerCase();
         String accountNumber = commandData[2];
-        float apr;
+        String aprStr = commandData[3];
 
-        try {
-            Integer.parseInt(accountNumber);
-            apr = Float.parseFloat(commandData[3]);
-        } catch (NumberFormatException e) {
+        if (!validationUtils.isValidNumber(accountNumber) || !validationUtils.isValidFloat(aprStr)) {
             return false;
         }
 
-        if (accountNumber.length() != 8 || bank.retrieveAccount(accountNumber) != null || apr < 0 || apr > 10) {
+        if (!validationUtils.isValidAccountId(accountNumber)) {
+            return false;
+        }
+
+        float apr = Float.parseFloat(aprStr);
+
+        if (validationUtils.accountExists(bank, accountNumber) || apr < 0 || apr > 10) {
             return false;
         }
 
         if (Arrays.asList("savings", "checking").contains(accountType)) {
             return commandData.length == 4;
         } else if (accountType.equals("cd") && commandData.length == 5) {
-            try {
-                float cdInitBalance = Float.parseFloat(commandData[4]);
-                return cdInitBalance >= 1000 && cdInitBalance <= 10000;
-            } catch (NumberFormatException e) {
+            String cdInitBalanceStr = commandData[4];
+
+            if (!validationUtils.isValidFloat(cdInitBalanceStr)) {
                 return false;
             }
+
+            float cdInitBalance = Float.parseFloat(cdInitBalanceStr);
+
+            return cdInitBalance >= 1000 && cdInitBalance <= 10000;
         }
 
         return false;
@@ -94,24 +131,25 @@ class DepositValidator extends CommandValidatorBase {
         }
 
         String accountNumber = commandData[1];
-        float balanceToDeposit;
+        String balanceToDepositStr = commandData[2];
 
-        try {
-            Integer.parseInt(accountNumber);
-            balanceToDeposit = Float.parseFloat(commandData[2]);
-        } catch (NumberFormatException e) {
+        if (!validationUtils.isValidNumber(accountNumber) || !validationUtils.isValidFloat(balanceToDepositStr)) {
+            return false;
+        }
+
+        if (!validationUtils.isValidAccountId(accountNumber) && validationUtils.accountExists(bank, accountNumber)) {
             return false;
         }
 
         Account account = bank.retrieveAccount(accountNumber);
 
-        if (account == null || accountNumber.length() != 8) {
+        if (account == null) {
             return false;
         }
 
-        if (account instanceof Savings && balanceToDeposit >= 0 && balanceToDeposit <= 2500) {
+        if (account instanceof Savings && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 2500) {
             return true;
-        } else if (account instanceof Checking && balanceToDeposit >= 0 && balanceToDeposit <= 1000) {
+        } else if (account instanceof Checking && Float.parseFloat(balanceToDepositStr) >= 0 && Float.parseFloat(balanceToDepositStr) <= 1000) {
             return true;
         }
 
