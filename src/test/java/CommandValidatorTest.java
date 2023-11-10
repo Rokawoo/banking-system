@@ -17,7 +17,6 @@ public class CommandValidatorTest {
         bank = new Bank();
         bank.addAccount("00000001", savings);
         bank.addAccount("00000002", checking);
-        // Bank.resetNextID();
         commandValidator = new CommandValidator(bank);
     }
 
@@ -34,7 +33,6 @@ public class CommandValidatorTest {
         assertFalse(actual);
     }
 
-    // Account Creation
     @Test
     void create_no_account_type_invalid() {
         boolean actual = commandValidator.validate("create 12345678 0.6");
