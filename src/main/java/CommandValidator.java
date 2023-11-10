@@ -53,20 +53,20 @@ class CreateValidator extends CommandValidatorBase {
         }
 
         String accountType = commandData[1].toLowerCase();
-        String accountNumber = commandData[2];
+        String accountId = commandData[2];
         String aprStr = commandData[3];
 
-        if (!ValidationUtils.isValidNumber(accountNumber) || !ValidationUtils.isValidFloat(aprStr)) {
+        if (!ValidationUtils.isValidNumber(accountId) || !ValidationUtils.isValidFloat(aprStr)) {
             return false;
         }
 
-        if (!ValidationUtils.isValidAccountId(accountNumber)) {
+        if (!ValidationUtils.isValidAccountId(accountId)) {
             return false;
         }
 
         float apr = Float.parseFloat(aprStr);
 
-        if (ValidationUtils.accountExists(bank, accountNumber) || apr < 0 || apr > 10) {
+        if (ValidationUtils.accountExists(bank, accountId) || apr < 0 || apr > 10) {
             return false;
         }
 
@@ -99,14 +99,14 @@ class DepositValidator extends CommandValidatorBase {
             return false;
         }
 
-        String accountNumber = commandData[1];
+        String accountId = commandData[1];
         String balanceToDepositStr = commandData[2];
 
-        if (!ValidationUtils.isValidNumber(accountNumber) || !ValidationUtils.isValidFloat(balanceToDepositStr)) {
+        if (!ValidationUtils.isValidNumber(accountId) || !ValidationUtils.isValidFloat(balanceToDepositStr)) {
             return false;
         }
 
-        if (!ValidationUtils.isValidAccountId(accountNumber) && ValidationUtils.accountExists(bank, accountNumber)) {
+        if (!ValidationUtils.isValidAccountId(accountId) && ValidationUtils.accountExists(bank, accountId)) {
             return false;
         }
 
@@ -114,7 +114,7 @@ class DepositValidator extends CommandValidatorBase {
             return  false;
         }
 
-        Account account = bank.retrieveAccount(accountNumber);
+        Account account = bank.retrieveAccount(accountId);
 
         if (account == null) {
             return false;

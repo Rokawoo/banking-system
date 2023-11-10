@@ -1,21 +1,16 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Bank {
-    private static AtomicInteger nextID = new AtomicInteger(0);
-    private Map<String, Account> accounts;
 
-    public static void resetNextID() {
-        nextID.set(0);
-    }
+    private Map<String, Account> accounts;
 
     Bank() {
         accounts = new HashMap<>();
     }
 
-    public void addAccount(Account account) {
-        accounts.put(String.format("%08d", nextID.incrementAndGet()), account);
+    public void addAccount(String id, Account account) {
+        accounts.put(id, account);
     }
 
     public int getNumberOfAccounts() {

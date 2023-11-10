@@ -15,13 +15,30 @@ public class CommandValidatorTest {
         savings = new Savings(1.4);
         checking = new Checking(1.4);
         bank = new Bank();
-        bank.addAccount(savings);
-        bank.addAccount(checking);
-        Bank.resetNextID();
+        bank.addAccount("00000001", savings);
+        bank.addAccount("00000002", checking);
         commandValidator = new CommandValidator(bank);
     }
 
+    @Test
+    void empty_command_invalid() {
+        boolean actual = commandValidator.validate("");
+        assertFalse(actual);
+    }
+
     // Account Creation
+    @Test
+    void no_command_create_account_invalid() {
+        boolean actual = commandValidator.validate("create 12345678 0.6");
+        assertFalse(actual);
+    }
+
+    @Test
+    void create_no_account_type_invalid() {
+        boolean actual = commandValidator.validate("create 12345678 0.6");
+        assertFalse(actual);
+    }
+
     @Test
     void create_invalid_account_type_invalid() {
         boolean actual = commandValidator.validate("create Investment 12345678 0.6");
