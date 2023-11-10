@@ -52,10 +52,10 @@ class CreateProcessor extends CommandProcessorBase {
         float aprFloat = Float.parseFloat(commandData[3]);
 
         Account accountToCreate;
-        if (accountType == "savings") {
+        if (accountType.equals("savings")) {
             accountToCreate = new Savings(aprFloat);
             bank.addAccount(accountId, accountToCreate);
-        } else if (accountType == "checking"){
+        } else if (accountType.equals("checking")){
             accountToCreate = new Checking(aprFloat);
             bank.addAccount(accountId, accountToCreate);
         } else {

@@ -13,13 +13,13 @@ public class CommandValidator {
     }
 
     public boolean validate(String commandToValidate) {
-        String[] parts = commandToValidate.split("\\s+");
-        String action = parts[0].toLowerCase();
+        String[] commandData = commandToValidate.split("\\s+");
+        String action = commandData[0].toLowerCase();
 
         CommandValidatorBase validator = commandValidators.get(action);
 
         if (validator != null) {
-            boolean result = validator.validate(parts);
+            boolean result = validator.validate(commandData);
             if (!result) {
                 System.out.println("Validation failed for action: " + action);
             }

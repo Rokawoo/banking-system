@@ -13,7 +13,7 @@ public abstract class Account {
 
     public String getType() { return type;}
 
-    public double getAPR() {return apr;}
+    public double getApr() {return apr;}
 
     public double getBalance() {return balance;}
 
