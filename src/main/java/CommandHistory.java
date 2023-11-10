@@ -18,4 +18,8 @@ public class CommandHistory {
         commandHistory.add(command);
         return true;
     }
+
+    public List<String> retrieveAllStored() {
+        return commandHistory;
+    }
 }
