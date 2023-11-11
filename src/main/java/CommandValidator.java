@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandValidator {
-    private Map<String, CommandValidatorBase> commandValidators = new HashMap<>();
-    private Bank bank;
+    private final Map<String, CommandValidatorBase> commandValidators = new HashMap<>();
+    private final Bank bank;
 
     public CommandValidator(Bank bank) {
         this.bank = bank;
@@ -124,11 +124,7 @@ class DepositValidator extends CommandValidatorBase {
 
         if ("savings".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 2500)) {
             return true;
-        } else if ("checking".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 1000)) {
-            return true;
-        }
-
-        return false;
+        } else return "checking".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 1000);
     }
 }
 

@@ -8,12 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CommandHistoryTest {
     CommandHistory commandHistory;
-    Bank bank;
 
     @BeforeEach
     void setup() {
-        bank = new Bank();
-        commandHistory = new CommandHistory(bank);
+        commandHistory = new CommandHistory();
     }
 
     @Test

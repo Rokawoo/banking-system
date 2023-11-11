@@ -2,16 +2,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandProcessor {
-    private Map<String, CommandProcessorBase> commandProcessors = new HashMap<>();
-    private Bank bank;
+    private final Map<String, CommandProcessorBase> commandProcessors = new HashMap<>();
 
     public CommandProcessor(Bank bank) {
-        this.bank = bank;
         commandProcessors.put("create", new CreateProcessor(bank));
         commandProcessors.put("deposit", new DepositProcessor(bank));
     }
 
-    public boolean process(String commandToprocess) {
+    public void process(String commandToprocess) {
         String[] parts = commandToprocess.split("\\s+");
         String action = parts[0].toLowerCase();
 
@@ -22,10 +20,8 @@ public class CommandProcessor {
             if (!result) {
                 System.out.println("Process failed for action: " + action);
             }
-            return result;
         } else {
             System.out.println("Action not found: " + action);
-            return false;
         }
     }
 }

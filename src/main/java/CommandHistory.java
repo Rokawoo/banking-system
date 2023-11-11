@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandHistory {
-    private CommandValidator commandValidator;
-    private List<String> commandHistory = new ArrayList<>();
+    private final CommandValidator commandValidator;
+    private final List<String> commandHistory = new ArrayList<>();
 
-    public CommandHistory(Bank bank) {
-        commandValidator = new CommandValidator(bank);
+    public CommandHistory() {
+        commandValidator = new CommandValidator(new Bank());
     }
 
     public boolean storeCommand(String command) {
