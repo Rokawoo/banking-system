@@ -15,9 +15,9 @@ public class MasterControl {
     public List<String> start(List<String> input) {
         for (String command : input) {
             if (commandValidator.validate(command)) {
-                System.out.println("pro");
+                commandProcessor.process(command);
             } else {
-                System.out.println("sto");
+                commandHistory.storeCommand(command);
             }
         }
         return commandHistory.retrieveAllStored();
