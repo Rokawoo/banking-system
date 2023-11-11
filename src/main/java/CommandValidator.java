@@ -20,9 +20,6 @@ public class CommandValidator {
 
         if (validator != null) {
             boolean result = validator.validate(commandData);
-            if (!result) {
-                System.out.println("Validation failed for action: " + action);
-            }
             return result;
         } else {
             System.out.println("Action not found: " + action);

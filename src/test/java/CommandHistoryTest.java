@@ -11,67 +11,66 @@ public class CommandHistoryTest {
 
     @BeforeEach
     void setup() {
-        commandHistory = new CommandHistory();
+        commandHistory = new CommandHistory(new Bank());
+    }
+
+    private void assertCommandStored(String command, boolean expectedResult) {
+        boolean actualResult = commandHistory.storeCommand(command);
+        assertEquals(expectedResult, actualResult);
+    }
+
+    private void storeMultipleCommands(String command, int count) {
+        for (int i = 0; i < count; i++) {
+            commandHistory.storeCommand(command);
+        }
     }
 
     @Test
     void store_no_command_valid() {
-        boolean actual = commandHistory.storeCommand("");
-        assertTrue(actual);
+        assertCommandStored("", true);
     }
 
     @Test
     void store_invalid_command_valid() {
-        boolean actual = commandHistory.storeCommand("Create Investment 12345678 0");
-        assertTrue(actual);
+        assertCommandStored("Create Investment 12345678 0", true);
     }
 
     @Test
     void store_two_invalid_command_valid() {
-        boolean actual = commandHistory.storeCommand("Create Investment 12345678 0");
-        assertTrue(actual);
-        boolean actual2 = commandHistory.storeCommand("Create Investment 12345678 0");
-        assertTrue(actual2);
+        assertCommandStored("Create Investment 12345678 0", true);
+        assertCommandStored("Create Investment 12345678 0", true);
     }
 
     @Test
     void store_valid_command_invalid() {
-        boolean actual = commandHistory.storeCommand("Create Savings 12345678 0");
-        assertFalse(actual);
+        assertCommandStored("Create Savings 12345678 0", false);
     }
 
     @Test
     void store_two_valid_commands_invalid() {
-        boolean actual = commandHistory.storeCommand("Create Savings 12345678 0");
-        assertFalse(actual);
-        boolean actual2 = commandHistory.storeCommand("Create Savings 00000001 0");
-        assertFalse(actual2);
+        assertCommandStored("Create Savings 12345678 0", false);
+        assertCommandStored("Create Savings 00000001 0", false);
     }
 
     @Test
     void store_invalid_command_after_valid_command_valid() {
-        boolean actual = commandHistory.storeCommand("Create Savings 12345678 0");
-        assertFalse(actual);
-        boolean actual2 = commandHistory.storeCommand("Create Investment 12345678 0");
-        assertTrue(actual2);
+        assertCommandStored("Create Savings 12345678 0", false);
+        assertCommandStored("Create Investment 12345678 0", true);
     }
 
     @Test
     void store_valid_command_after_invalid_command_invalid() {
-        boolean actual = commandHistory.storeCommand("Create Investment 12345678 0");
-        assertTrue(actual);
-        boolean actual2 = commandHistory.storeCommand("Create Savings 12345678 0");
-        assertFalse(actual2);
+        assertCommandStored("Create Investment 12345678 0", true);
+        assertCommandStored("Create Savings 12345678 0", false);
     }
 
     @Test
     void retrieve_all_stored_commands_valid() {
         List<String> expectedCommands = Arrays.asList("Create Investment 12345678 0", "Create Investment 12345678 0");
 
-        commandHistory.storeCommand("Create Investment 12345678 0");
-        commandHistory.storeCommand("Create Investment 12345678 0");
+        storeMultipleCommands("Create Investment 12345678 0", 2);
         List<String> actualCommands = commandHistory.retrieveAllStored();
 
-        assertEquals(expectedCommands, actualCommands);;
+        assertEquals(expectedCommands, actualCommands);
     }
 }
