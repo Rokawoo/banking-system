@@ -14,17 +14,12 @@ public class MasterControl {
 
     public List<String> start(List<String> input) {
         for (String command : input) {
-            System.out.println(command);
-            System.out.println(commandValidator.validate(command));
             if (commandValidator.validate(command)) {
                 System.out.println("pro");
-                commandProcessor.process(command);
             } else {
                 System.out.println("sto");
-                commandHistory.storeCommand(command);
             }
         }
-        System.out.println(commandHistory.retrieveAllStored());
         return commandHistory.retrieveAllStored();
     }
 }

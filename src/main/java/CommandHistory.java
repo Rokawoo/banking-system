@@ -3,7 +3,7 @@ import java.util.List;
 
 public class CommandHistory {
     private final CommandValidator commandValidator;
-    private final List<String> commandHistory = new ArrayList<>();
+    private final List<String> commandHistoryList = new ArrayList<>();
     private final Bank bank;
 
     public CommandHistory(Bank bank) {
@@ -17,11 +17,11 @@ public class CommandHistory {
         if (isValidCommand) {
             return false;
         }
-        commandHistory.add(command);
+        commandHistoryList.add(command);
         return true;
     }
 
     public List<String> retrieveAllStored() {
-        return commandHistory;
+        return commandHistoryList;
     }
 }
