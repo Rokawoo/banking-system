@@ -27,4 +27,5 @@ public abstract class Account {
             this.balance = 0;
         }
     }
+    public abstract boolean isValidDeposit(float amount);
 }

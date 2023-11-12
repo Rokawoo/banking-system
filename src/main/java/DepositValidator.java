@@ -1,4 +1,4 @@
-class DepositValidator extends CommandValidatorBase {
+public class DepositValidator extends CommandValidatorBase {
     public DepositValidator(Bank bank) {
         super(bank);
     }
@@ -20,10 +20,6 @@ class DepositValidator extends CommandValidatorBase {
             return false;
         }
 
-        if (!ValidationUtils.isValidFloat(balanceToDepositStr)) {
-            return  false;
-        }
-
         Account account = bank.retrieveAccount(accountId);
 
         if (account == null) {
@@ -32,8 +28,6 @@ class DepositValidator extends CommandValidatorBase {
 
         float balanceToDeposit = Float.parseFloat(balanceToDepositStr);
 
-        if ("savings".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 2500)) {
-            return true;
-        } else return "checking".equals(account.getType()) && (balanceToDeposit >= 0) && (balanceToDeposit <= 1000);
+        return account.isValidDeposit(balanceToDeposit);
     }
 }
