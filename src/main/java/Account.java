@@ -1,15 +1,19 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Account {
-    private double APR;
+    private String type;
+    private double apr;
     private double balance;
 
-    public Account(double apr, double balance) {
-        this.APR = apr;
+    protected Account(String type, double apr, double balance) {
+        this.type = type;
+        this.apr = apr;
         this.balance = balance;
     }
 
-    public double getAPR() {return APR;}
+    public String getType() { return type;}
+
+    public double getAPR() {return apr;}
 
     public double getBalance() {return balance;}
 
