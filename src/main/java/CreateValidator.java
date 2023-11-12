@@ -29,7 +29,7 @@ class CreateValidator extends CommandValidatorBase {
             return false;
         }
 
-        if (Arrays.asList("savings", "checking").contains(accountType)) {
+        if (accountType.equals("savings") || accountType.equals("checking")) {
             return commandData.length == 4;
         } else if (accountType.equals("cd") && commandData.length == 5) {
             String cdInitBalanceStr = commandData[4];
