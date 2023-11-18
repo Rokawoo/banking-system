@@ -1,3 +1,5 @@
+package banking;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +55,7 @@ public class CommandProcessorTest {
         assertEquals(accountBalanceBeforeDeposit + depositBalance, accountBalanceAfterDeposit);
     }
 
-    // Account Creation
+    // banking.Account Creation
     @Test
     void create_account_with_noncase_sensitive_command_valid() {
         assertAccountCreation("cReatE SaViNgs 12345678 0");
@@ -61,57 +63,57 @@ public class CommandProcessorTest {
 
     @Test
     void create_savings_account_valid() {
-        assertAccountCreation("Create Savings 12345678 0");
+        assertAccountCreation("Create banking.Savings 12345678 0");
     }
 
     @Test
     void create_cd_account_valid_with_1000_initial_balance_valid() {
-        assertAccountCreation("Create CD 12345678 0 1000");
+        assertAccountCreation("Create banking.CD 12345678 0 1000");
     }
 
     @Test
     void create_cd_account_valid_with_float_initial_balance_valid() {
-        assertAccountCreation("Create CD 12345678 0 5000.20");
+        assertAccountCreation("Create banking.CD 12345678 0 5000.20");
     }
 
     @Test
     void create_cd_account_valid_with_5000_initial_balance_valid() {
-        assertAccountCreation("Create CD 12345678 0 5000.");
+        assertAccountCreation("Create banking.CD 12345678 0 5000.");
     }
 
     @Test
     void create_cd_account_valid_with_10000_initial_balance_valid() {
-        assertAccountCreation("Create CD 12345678 0 10000");
+        assertAccountCreation("Create banking.CD 12345678 0 10000");
         
     }
 
     @Test
     void create_account_with_0_apr_valid() {
-        assertAccountCreation("Create Savings 12345678 0");
+        assertAccountCreation("Create banking.Savings 12345678 0");
         
     }
 
     @Test
     void create_account_with_5_apr_valid() {
-        assertAccountCreation("Create Savings 12345678 5");
+        assertAccountCreation("Create banking.Savings 12345678 5");
         
     }
 
     @Test
     void create_account_with_float_apr_valid() {
-        assertAccountCreation("Create Savings 12345678 5.2");
+        assertAccountCreation("Create banking.Savings 12345678 5.2");
         
     }
 
     @Test
     void create_account_with_10_apr_valid() {
-        assertAccountCreation("Create Savings 12345678 10");
+        assertAccountCreation("Create banking.Savings 12345678 10");
         
     }
 
     @Test
     void create_account_with_8len_id_valid() {
-        assertAccountCreation("Create Savings 12345678 0");
+        assertAccountCreation("Create banking.Savings 12345678 0");
 
     }
 
