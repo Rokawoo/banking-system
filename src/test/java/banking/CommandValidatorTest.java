@@ -28,7 +28,7 @@ public class CommandValidatorTest {
         assertFalse(actual);
     }
 
-    // banking.Account Creation
+    // Account Creation
     @Test
     void no_command_create_account_invalid() {
         boolean actual = commandValidator.validate("create 12345678 0.6");
@@ -55,151 +55,151 @@ public class CommandValidatorTest {
 
     @Test
     void create_savings_account_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 0");
+        boolean actual = commandValidator.validate("Create Savings 12345678 0");
         assertTrue(actual);
     }
 
     @Test
     void create_savings_account_valid_with_initial_balance_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 0 1500");
+        boolean actual = commandValidator.validate("Create Savings 12345678 0 1500");
         assertFalse(actual);
     }
 
     @Test
     void create_cd_account_valid_with_no_initial_balance_invalid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0");
+        boolean actual = commandValidator.validate("Create CD 12345678 0");
         assertFalse(actual);
     }
 
     @Test
     void create_cd_account_valid_with_negative_initial_balance_invalid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 -20.50");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 -20.50");
         assertFalse(actual);
     }
 
     @Test
     void create_cd_account_valid_with_999_initial_balance_invalid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 999");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 999");
         assertFalse(actual);
     }
 
     @Test
     void create_cd_account_valid_with_1000_initial_balance_valid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 1000");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 1000");
         assertTrue(actual);
     }
 
     @Test
     void create_cd_account_valid_with_float_initial_balance_valid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 5000.20");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 5000.20");
         assertTrue(actual);
     }
 
     @Test
     void create_cd_account_valid_with_5000_initial_balance_valid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 5000.");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 5000.");
         assertTrue(actual);
     }
 
     @Test
     void create_cd_account_valid_with_10000_initial_balance_valid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 10000");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 10000");
         assertTrue(actual);
     }
 
     @Test
     void create_cd_account_valid_with_10001_initial_balance_invalid() {
-        boolean actual = commandValidator.validate("Create banking.CD 12345678 0 10001");
+        boolean actual = commandValidator.validate("Create CD 12345678 0 10001");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_no_command_invalid() {
-        boolean actual = commandValidator.validate(" banking.Savings 12345678 0.6");
+        boolean actual = commandValidator.validate(" Savings 12345678 0.6");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_no_id_or_apr_invalid() {
-        boolean actual = commandValidator.validate("create banking.Savings");
+        boolean actual = commandValidator.validate("create Savings");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_no_apr_invalid() {
-        boolean actual = commandValidator.validate("create banking.Savings 12345678");
+        boolean actual = commandValidator.validate("create Savings 12345678");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_negative_apr_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 -0.6");
+        boolean actual = commandValidator.validate("Create Savings 12345678 -0.6");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_0_apr_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 0");
+        boolean actual = commandValidator.validate("Create Savings 12345678 0");
         assertTrue(actual);
     }
 
     @Test
     void create_account_with_5_apr_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 5");
+        boolean actual = commandValidator.validate("Create Savings 12345678 5");
         assertTrue(actual);
     }
 
     @Test
     void create_account_with_float_apr_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 5.2");
+        boolean actual = commandValidator.validate("Create Savings 12345678 5.2");
         assertTrue(actual);
     }
 
     @Test
     void create_account_with_10_apr_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 10");
+        boolean actual = commandValidator.validate("Create Savings 12345678 10");
         assertTrue(actual);
     }
 
     @Test
     void create_account_with_11_apr_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 11");
+        boolean actual = commandValidator.validate("Create Savings 12345678 11");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_no_id_invalid() {
-        boolean actual = commandValidator.validate("create banking.Savings 0.6");
+        boolean actual = commandValidator.validate("create Savings 0.6");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_7len_id_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 1234567 0");
+        boolean actual = commandValidator.validate("Create Savings 1234567 0");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_8len_id_valid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 12345678 0");
+        boolean actual = commandValidator.validate("Create Savings 12345678 0");
         assertTrue(actual);
     }
 
     @Test
     void create_account_with_9len_id_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 123456789 0");
+        boolean actual = commandValidator.validate("Create Savings 123456789 0");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_string_id_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings ABCDEFGH 0");
+        boolean actual = commandValidator.validate("Create Savings ABCDEFGH 0");
         assertFalse(actual);
     }
 
     @Test
     void create_account_with_duplicate_id_invalid() {
-        boolean actual = commandValidator.validate("Create banking.Savings 00000001 0");
+        boolean actual = commandValidator.validate("Create Savings 00000001 0");
         assertFalse(actual);
     }
 

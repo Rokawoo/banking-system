@@ -45,25 +45,25 @@ public class CommandHistoryTest {
 
     @Test
     void store_valid_command_invalid() {
-        assertCommandStored("Create banking.Savings 12345678 0", false);
+        assertCommandStored("Create Savings 12345678 0", false);
     }
 
     @Test
     void store_two_valid_commands_invalid() {
-        assertCommandStored("Create banking.Savings 12345678 0", false);
-        assertCommandStored("Create banking.Savings 00000001 0", false);
+        assertCommandStored("Create Savings 12345678 0", false);
+        assertCommandStored("Create Savings 00000001 0", false);
     }
 
     @Test
     void store_invalid_command_after_valid_command_valid() {
-        assertCommandStored("Create banking.Savings 12345678 0", false);
+        assertCommandStored("Create Savings 12345678 0", false);
         assertCommandStored("Create Investment 12345678 0", true);
     }
 
     @Test
     void store_valid_command_after_invalid_command_invalid() {
         assertCommandStored("Create Investment 12345678 0", true);
-        assertCommandStored("Create banking.Savings 12345678 0", false);
+        assertCommandStored("Create Savings 12345678 0", false);
     }
 
     @Test
