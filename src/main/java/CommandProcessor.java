@@ -16,12 +16,7 @@ public class CommandProcessor {
         CommandProcessorBase Processor = commandProcessors.get(action);
 
         if (Processor != null) {
-            boolean result = Processor.process(parts);
-            if (!result) {
-                System.out.println("Process failed for action: " + action);
-            }
-        } else {
-            System.out.println("Action not found: " + action);
+            Processor.process(parts);
         }
     }
 }
