@@ -23,7 +23,6 @@ public class CommandValidator {
             boolean result = validator.validate(commandData);
             return result;
         } else {
-            System.out.println("Action not found: " + action);
             return false;
         }
     }
