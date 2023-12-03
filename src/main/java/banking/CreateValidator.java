@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package banking;
 
 class CreateValidator extends CommandValidatorBase {
     public CreateValidator(Bank bank) {
