@@ -1,7 +1,5 @@
 package banking;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public abstract class Account {
     private String type;
     private double apr;
@@ -33,5 +31,8 @@ public abstract class Account {
     }
     public abstract boolean isValidDeposit(float amount);
 
-    public abstract boolean isValidWithdraw(float amount);
+    public abstract boolean isValidWithdraw(float amount, int currentMonth);
+
+    public abstract void updateWithdrawHold(int currentMonth);
+
 }

@@ -30,6 +30,6 @@ public class WithdrawValidator extends CommandValidatorBase {
 
         float balanceToWithdraw = Float.parseFloat(balanceToWithdrawStr);
 
-        return account.isValidWithdraw(balanceToWithdraw);
+        return account.isValidWithdraw(balanceToWithdraw, bank.getTime());
     }
 }

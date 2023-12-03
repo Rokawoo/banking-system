@@ -11,5 +11,10 @@ public class CD extends Account{
     }
 
     @Override
-    public boolean isValidWithdraw(float amount) {return false; }
+    public boolean isValidWithdraw(float amount, int currentMonth) {return amount == this.getBalance() && currentMonth >= this.withdrawHoldUntil;}
+
+    @Override
+    public void updateWithdrawHold(int currentMonth) {
+        return;
+    }
 }

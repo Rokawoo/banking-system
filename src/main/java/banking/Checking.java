@@ -11,7 +11,12 @@ public class Checking extends Account{
     }
 
     @Override
-    public boolean isValidWithdraw(float amount) {
-        return amount >= 0 && amount <= 400;
+    public boolean isValidWithdraw(float amount, int currentMonth) {
+        return amount >= 0 && amount <= 400 && currentMonth >= this.withdrawHoldUntil;
+    }
+
+    @Override
+    public void updateWithdrawHold(int currentMonth) {
+        return;
     }
 }

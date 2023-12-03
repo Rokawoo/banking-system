@@ -32,4 +32,15 @@ public class Bank {
     public void bankWithdraw(String id, double withdrawAmount) {
         accounts.get(id).withdraw(withdrawAmount);
     }
+
+    public boolean passTime(int monthAmount) {
+        if (monthAmount >= 1 && monthAmount <= 60) {
+            this.month += monthAmount;
+            return true;
+    } else {
+            return false;
+        }
+    }
+
+    public int getTime() {return this.month;}
 }
