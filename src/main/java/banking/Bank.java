@@ -6,9 +6,11 @@ import java.util.Map;
 public class Bank {
 
     private Map<String, Account> accounts;
+    private int month;
 
     Bank() {
-        accounts = new HashMap<>();
+        this.accounts = new HashMap<>();
+        this.month = 0;
     }
 
     public void addAccount(String id, Account account) {

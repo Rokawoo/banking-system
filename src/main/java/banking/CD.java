@@ -9,4 +9,7 @@ public class CD extends Account{
     public boolean isValidDeposit(float amount) {
         return false;
     }
+
+    @Override
+    public boolean isValidWithdraw(float amount) {return false; }
 }

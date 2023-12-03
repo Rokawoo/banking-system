@@ -11,6 +11,8 @@ public class CommandValidator {
         this.bank = bank;
         commandValidators.put("create", new CreateValidator(bank));
         commandValidators.put("deposit", new DepositValidator(bank));
+        commandValidators.put("withdraw", new WithdrawValidator(bank));
+        commandValidators.put("transfer", new TransferValidator(bank));
     }
 
     public boolean validate(String commandToValidate) {

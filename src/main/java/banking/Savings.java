@@ -9,4 +9,9 @@ public class Savings extends Account{
     public boolean isValidDeposit(float amount) {
         return amount >= 0 && amount <= 2500;
     }
+
+    @Override
+    public boolean isValidWithdraw(float amount) {
+        return amount >= 0 && amount <= 1000 && bank.getMonth() >= this.withdrawHoldUntil;
+    }
 }

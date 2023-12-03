@@ -6,11 +6,13 @@ public abstract class Account {
     private String type;
     private double apr;
     private double balance;
+    protected int withdrawHoldUntil;
 
     protected Account(String type, double apr, double balance) {
         this.type = type;
         this.apr = apr;
         this.balance = balance;
+        this.withdrawHoldUntil = -1;
     }
 
     public String getType() { return type;}
@@ -30,4 +32,6 @@ public abstract class Account {
         }
     }
     public abstract boolean isValidDeposit(float amount);
+
+    public abstract boolean isValidWithdraw(float amount);
 }
