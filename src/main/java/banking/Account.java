@@ -33,6 +33,7 @@ public abstract class Account {
 
     public abstract boolean isValidWithdraw(float amount, int currentMonth);
 
-    public abstract void updateWithdrawHold(int currentMonth);
+    public abstract void setInitialWithdrawHold(int currentMonth);
 
+    public abstract void updateWithdrawHold(int currentMonth);
 }

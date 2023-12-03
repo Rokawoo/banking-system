@@ -34,6 +34,9 @@ public class Bank {
     }
 
     public boolean passTime(int monthAmount) {
+        // del accs with < 100 bal
+        // apr calculations
+        // mov validation to val class and make processsor
         if (monthAmount >= 1 && monthAmount <= 60) {
             this.month += monthAmount;
             return true;

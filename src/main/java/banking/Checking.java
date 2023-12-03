@@ -16,6 +16,9 @@ public class Checking extends Account{
     }
 
     @Override
+    public void setInitialWithdrawHold(int currentMonth) {this.withdrawHoldUntil = -1;}
+
+    @Override
     public void updateWithdrawHold(int currentMonth) {
         return;
     }

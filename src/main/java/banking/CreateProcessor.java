@@ -23,6 +23,7 @@ class CreateProcessor extends CommandProcessorBase {
             accountToCreate = new CD(aprFloat, cdInitBalanceFloat);
             bank.addAccount(accountId, accountToCreate);
         }
+        accountToCreate.setInitialWithdrawHold(bank.getTime());
         return true;
     }
 }
