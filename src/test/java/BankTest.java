@@ -13,7 +13,6 @@ public class BankTest {
         bank = new Bank();
         checking = new Checking(9.8);
         cd = new CD(5, 100);
-        //Bank.resetNextID();
     }
 
     @Test

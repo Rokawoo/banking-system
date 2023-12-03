@@ -11,7 +11,7 @@ public class AccountTest {
 
     @Test
     public void account_apr_is_specified_apr_value() {
-        double actual = cd.getAPR();
+        double actual = cd.getApr();
 
         assertEquals(9.8, actual);
     }

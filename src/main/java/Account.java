@@ -13,7 +13,7 @@ public abstract class Account {
 
     public String getType() { return type;}
 
-    public double getAPR() {return apr;}
+    public double getApr() {return apr;}
 
     public double getBalance() {return balance;}
 
@@ -27,4 +27,5 @@ public abstract class Account {
             this.balance = 0;
         }
     }
+    public abstract boolean isValidDeposit(float amount);
 }
