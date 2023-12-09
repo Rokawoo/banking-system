@@ -33,17 +33,10 @@ public class Bank {
         accounts.get(id).withdraw(withdrawAmount);
     }
 
-    public boolean passTime(int monthAmount) {
-        // del accs with < 100 bal
-        // apr calculations
-        // mov validation to val class and make processsor
-        if (monthAmount >= 1 && monthAmount <= 60) {
-            this.month += monthAmount;
-            return true;
-    } else {
-            return false;
-        }
-    }
-
+    public void passTime(int monthAmount) {this.month += monthAmount;}
     public int getTime() {return this.month;}
+
+    // del accs with < 100 bal
+    // apr calculations
+    // mov validation to val class and make processsor
 }

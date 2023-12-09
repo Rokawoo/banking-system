@@ -13,6 +13,7 @@ public class CommandValidator {
         commandValidators.put("deposit", new DepositValidator(bank));
         commandValidators.put("withdraw", new WithdrawValidator(bank));
         commandValidators.put("transfer", new TransferValidator(bank));
+        commandValidators.put("pass", new PassTimeValidator(bank));
     }
 
     public boolean validate(String commandToValidate) {
@@ -43,7 +44,7 @@ class CommandValidatorBase {
 }
 
 class ValidationUtils {
-    public static boolean isValidNumber(String str) {
+    public static boolean isValidInt(String str) {
         try {
             Integer.parseInt(str);
             return true;

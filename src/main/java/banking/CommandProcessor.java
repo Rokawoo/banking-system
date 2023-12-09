@@ -9,6 +9,7 @@ public class CommandProcessor {
     public CommandProcessor(Bank bank) {
         commandProcessors.put("create", new CreateProcessor(bank));
         commandProcessors.put("deposit", new DepositProcessor(bank));
+        commandProcessors.put("pass", new PassTimeProcessor(bank));
     }
 
     public void process(String commandToprocess) {

@@ -14,7 +14,7 @@ public class DepositValidator extends CommandValidatorBase {
         String accountId = commandData[1];
         String balanceToDepositStr = commandData[2];
 
-        if (!ValidationUtils.isValidNumber(accountId) || !ValidationUtils.isValidFloat(balanceToDepositStr)) {
+        if (!ValidationUtils.isValidInt(accountId) || !ValidationUtils.isValidFloat(balanceToDepositStr)) {
             return false;
         }
 
