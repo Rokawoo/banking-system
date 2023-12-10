@@ -299,4 +299,21 @@ public class CommandValidatorTest {
         assertTrue(actual2);
     }
 
+    // Withdraw
+
+    @Test
+    void savings_checking_consecutive_amount_withdrawn_to_different_account_invalid() {
+        bank.bankUpdateWithdrawHold("00000001");
+        boolean actual = commandValidator.validate("Withdraw 00000001 400.50");
+        assertFalse(actual);
+    }
+
+    @Test
+    void savings_consecutive_and_pass_amount_withdrawn_to_different_account_valid() {
+        bank.bankUpdateWithdrawHold("00000001");
+        bank.passTime(1);
+        boolean actual = commandValidator.validate("Withdraw 00000001 400.50");
+        assertTrue(actual);
+    }
+
 }

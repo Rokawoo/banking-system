@@ -29,9 +29,9 @@ public class Bank {
         accounts.get(id).deposit(depositAmount);
     }
 
-    public void bankWithdraw(String id, double withdrawAmount) {
-        accounts.get(id).withdraw(withdrawAmount);
-    }
+    public void bankWithdraw(String id, double withdrawAmount) {accounts.get(id).withdraw(withdrawAmount);}
+
+    public void bankUpdateWithdrawHold(String id) {accounts.get(id).updateWithdrawHold(this.month);}
 
     public void passTime(int monthAmount) {this.month += monthAmount;}
     public int getTime() {return this.month;}
