@@ -10,7 +10,9 @@ class PassTimeProcessor extends CommandProcessorBase {
         int monthAmount = Integer.parseInt(commandData[1]);
         bank.passTime(monthAmount);
 
-        // rest of pass actions
+        bank.closeZeroBalanceAccounts();
+        bank.applyMinimumBalanceFee();
+        bank.accrueAPR(monthAmount);
         return true;
     }
 }
