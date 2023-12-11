@@ -29,7 +29,10 @@ public class Bank {
         accounts.get(id).deposit(depositAmount);
     }
 
-    public void bankWithdraw(String id, double withdrawAmount) {accounts.get(id).withdraw(withdrawAmount);}
+    public double bankWithdraw(String id, double withdrawAmount) {
+        double amountWithdrawn = accounts.get(id).withdraw(withdrawAmount);
+        return amountWithdrawn;
+    }
 
     public void bankUpdateWithdrawHold(String id) {accounts.get(id).updateWithdrawHold(this.month);}
 

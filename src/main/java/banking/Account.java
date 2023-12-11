@@ -23,12 +23,17 @@ public abstract class Account {
         this.balance += depositAmount;
     }
 
-    public void withdraw(double withdrawAmount) {
-        this.balance -= withdrawAmount;
+    public double withdraw(double withdrawAmount) {
+        double actualWithdrawal = Math.min(withdrawAmount, this.balance);
+        this.balance -= actualWithdrawal;
+
         if (this.balance < 0) {
             this.balance = 0;
         }
+
+        return actualWithdrawal;
     }
+
     public abstract boolean isValidDeposit(float amount);
 
     public abstract boolean isValidWithdraw(float amount, int currentMonth);

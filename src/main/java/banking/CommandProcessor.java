@@ -10,6 +10,7 @@ public class CommandProcessor {
         commandProcessors.put("create", new CreateProcessor(bank));
         commandProcessors.put("deposit", new DepositProcessor(bank));
         commandProcessors.put("withdraw", new WithdrawProcessor(bank));
+        commandProcessors.put("transfer", new TransferProcessor(bank));
         commandProcessors.put("pass", new PassTimeProcessor(bank));
     }
 

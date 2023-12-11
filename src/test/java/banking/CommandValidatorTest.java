@@ -11,14 +11,17 @@ public class CommandValidatorTest {
     Bank bank;
     Savings savings;
     Checking checking;
+    CD cd;
 
     @BeforeEach
     void setup() {
         savings = new Savings(1.4);
         checking = new Checking(1.4);
+        cd = new CD(1.4, 5000);
         bank = new Bank();
         bank.addAccount("00000001", savings);
         bank.addAccount("00000002", checking);
+        bank.addAccount("00000003", cd);
         commandValidator = new CommandValidator(bank);
     }
 
@@ -302,18 +305,46 @@ public class CommandValidatorTest {
     // Withdraw
 
     @Test
-    void savings_checking_consecutive_amount_withdrawn_to_different_account_invalid() {
+    void savings_checking_consecutive_amount_withdrawn_invalid() {
         bank.bankUpdateWithdrawHold("00000001");
         boolean actual = commandValidator.validate("Withdraw 00000001 400.50");
         assertFalse(actual);
     }
 
     @Test
-    void savings_consecutive_and_pass_amount_withdrawn_to_different_account_valid() {
+    void savings_consecutive_and_passtime1_amount_withdrawn_valid() {
         bank.bankUpdateWithdrawHold("00000001");
         bank.passTime(1);
         boolean actual = commandValidator.validate("Withdraw 00000001 400.50");
         assertTrue(actual);
+    }
+
+    @Test
+    void cd_and_passtime11_amount_withdrawn_invalid() {
+        bank.passTime(11);
+        boolean actual = commandValidator.validate("Withdraw 00000003 5000");
+        assertFalse(actual);
+    }
+
+    @Test
+    void cd_and_passtime12_amount_withdrawn_valid() {
+        bank.passTime(12);
+        boolean actual = commandValidator.validate("Withdraw 00000003 5000");
+        assertTrue(actual);
+    }
+
+    @Test
+    void cd_and_passtime60_amount_withdrawn_valid() {
+        bank.passTime(60);
+        boolean actual = commandValidator.validate("Withdraw 00000003 5000");
+        assertTrue(actual);
+    }
+
+    @Test
+    void cd_and_passtime12_wrong_amount_withdrawn_invalid() {
+        bank.passTime(12);
+        boolean actual = commandValidator.validate("Withdraw 00000003 200");
+        assertFalse(actual);
     }
 
 }
