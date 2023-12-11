@@ -22,6 +22,5 @@ public class CD extends Account {
 
     @Override
     public void updateWithdrawHold(int currentMonth) {
-        return;
     }
 }

@@ -21,7 +21,7 @@ public class CommandHistoryTest {
         assertEquals(expectedResult, actualResult);
     }
 
-    private void storeMultipleInvalidCommands(String command, int count) {
+    private void storeMultipleCommands(String command, int count) {
         for (int i = 0; i < count; i++) {
             commandHistory.storeInvalidCommand(command);
         }
@@ -70,7 +70,7 @@ public class CommandHistoryTest {
     void retrieve_all_stored_commands_valid() {
         List<String> expectedCommands = Arrays.asList("Create Investment 12345678 0", "Create Investment 12345678 0");
 
-        storeMultipleInvalidCommands("Create Investment 12345678 0", 2);
+        storeMultipleCommands("Create Investment 12345678 0", 2);
         List<String> actualCommands = commandHistory.retrieveAllStored();
 
         assertEquals(expectedCommands, actualCommands);

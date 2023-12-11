@@ -5,10 +5,9 @@ import java.util.Map;
 
 public class CommandValidator {
     private final Map<String, CommandValidatorBase> commandValidators = new HashMap<>();
-    private final Bank bank;
+
 
     public CommandValidator(Bank bank) {
-        this.bank = bank;
         commandValidators.put("create", new CreateValidator(bank));
         commandValidators.put("deposit", new DepositValidator(bank));
         commandValidators.put("withdraw", new WithdrawValidator(bank));
@@ -23,8 +22,7 @@ public class CommandValidator {
         CommandValidatorBase validator = commandValidators.get(action);
 
         if (validator != null) {
-            boolean result = validator.validate(commandData);
-            return result;
+            return validator.validate(commandData);
         } else {
             return false;
         }
