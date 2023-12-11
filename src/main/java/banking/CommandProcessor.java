@@ -7,15 +7,11 @@ public class CommandProcessor {
     private final Map<String, CommandProcessorBase> commandProcessors = new HashMap<>();
 
     public CommandProcessor(Bank bank) {
-        initializeProcessors(bank, commandProcessors);
-    }
-
-    private void initializeProcessors(Bank bank, Map<String, CommandProcessorBase> processors) {
-        processors.put("pass", new PassTimeProcessor(bank));
-        processors.put("deposit", new DepositProcessor(bank));
-        processors.put("create", new CreateProcessor(bank));
-        processors.put("withdraw", new WithdrawProcessor(bank));
-        processors.put("transfer", new TransferProcessor(bank));
+        commandProcessors.put("create", new CreateProcessor(bank));
+        commandProcessors.put("deposit", new DepositProcessor(bank));
+        commandProcessors.put("withdraw", new WithdrawProcessor(bank));
+        commandProcessors.put("transfer", new TransferProcessor(bank));
+        commandProcessors.put("pass", new PassTimeProcessor(bank));
     }
 
     public void process(String commandToProcess) {

@@ -8,15 +8,11 @@ public class CommandValidator {
 
 
     public CommandValidator(Bank bank) {
-        initializeValidators(bank, commandValidators);
-    }
-
-    private void initializeValidators(Bank bank, Map<String, CommandValidatorBase> validators) {
-        validators.put("create", new CreateValidator(bank));
-        validators.put("deposit", new DepositValidator(bank));
-        validators.put("withdraw", new WithdrawValidator(bank));
-        validators.put("transfer", new TransferValidator(bank));
-        validators.put("pass", new PassTimeValidator(bank));
+        commandValidators.put("create", new CreateValidator(bank));
+        commandValidators.put("deposit", new DepositValidator(bank));
+        commandValidators.put("withdraw", new WithdrawValidator(bank));
+        commandValidators.put("transfer", new TransferValidator(bank));
+        commandValidators.put("pass", new PassTimeValidator(bank));
     }
 
     public boolean validate(String commandToValidate) {
