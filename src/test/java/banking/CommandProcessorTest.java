@@ -30,7 +30,7 @@ public class CommandProcessorTest {
         String[] commandData = getCommandData(command);
         String accountType = commandData[1].toLowerCase();
         String accountId = commandData[2];
-        double apr = Float.parseFloat(commandData[3]);
+        double apr = Double.parseDouble(commandData[3]);
 
         commandProcessor.process(command);
         Account createdAccount = bank.retrieveAccount(accountId);
