@@ -15,8 +15,8 @@ public abstract class Account {
 
     protected Account(String type, double apr, double balance) {
         this.type = type;
-        this.apr = apr;
-        this.balance = balance;
+        this.apr = Double.parseDouble(df.format(apr));
+        this.balance = Double.parseDouble(df.format(balance));
         this.withdrawHoldUntil = -1;
     }
 
@@ -25,7 +25,7 @@ public abstract class Account {
     }
 
     public double getApr() {
-        return apr;
+        return Double.parseDouble(df.format(apr));
     }
 
     public double getBalance() {

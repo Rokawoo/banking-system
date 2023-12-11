@@ -9,7 +9,9 @@ public class AccountTest {
     Account cd;
 
     @BeforeEach
-    public void setUp() {cd = new CD(9.8, 100.50);}
+    public void setUp() {
+        cd = new CD(9.8, 100.50);
+    }
 
     @Test
     public void account_apr_is_specified_apr_value() {

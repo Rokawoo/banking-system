@@ -1,8 +1,6 @@
 package banking;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Bank {
 
@@ -31,8 +29,7 @@ public class Bank {
     }
 
     public double bankWithdraw(String id, double withdrawAmount) {
-        double amountWithdrawn = accounts.get(id).withdraw(withdrawAmount);
-        return amountWithdrawn;
+        return accounts.get(id).withdraw(withdrawAmount);
     }
 
     public void bankUpdateWithdrawHold(String id) {
@@ -96,4 +93,25 @@ public class Bank {
             account.deposit(totalInterest);
         }
     }
+
+    public List<String> printOpenAccountInformation() {
+        List<String> result = new ArrayList<>();
+
+        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+            String accountId = entry.getKey();
+            Account account = entry.getValue();
+
+            String accountInfo = String.format("%s %s %.2f %.2f",
+                    account.getType().substring(0, 1).toUpperCase() + account.getType().substring(1),
+                    accountId, account.getBalance(), account.getApr());
+
+            result.add(accountInfo);
+
+            List<String> transactionHistory = account.retrieveTransactionHistory();
+            result.addAll(transactionHistory);
+        }
+
+        return result;
+    }
+
 }

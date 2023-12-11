@@ -44,6 +44,14 @@ public class CommandHistory {
     }
 
     public List<String> retrieveAllStored() {
-        return invalidCommandHistoryList;
+        List<String> allStoredData = new ArrayList<>();
+
+        List<String> accountInformation = bank.printOpenAccountInformation();
+        allStoredData.addAll(accountInformation);
+
+        allStoredData.addAll(invalidCommandHistoryList);
+
+        return allStoredData;
     }
+
 }

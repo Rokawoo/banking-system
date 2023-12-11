@@ -3,7 +3,8 @@ package banking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CommandProcessorTest {
     CommandProcessor commandProcessor;
@@ -84,31 +85,31 @@ public class CommandProcessorTest {
     @Test
     void create_cd_account_valid_with_10000_initial_balance_valid() {
         assertAccountCreation("Create CD 12345678 0 10000");
-        
+
     }
 
     @Test
     void create_account_with_0_apr_valid() {
         assertAccountCreation("Create Savings 12345678 0");
-        
+
     }
 
     @Test
     void create_account_with_5_apr_valid() {
         assertAccountCreation("Create Savings 12345678 5");
-        
+
     }
 
     @Test
     void create_account_with_float_apr_valid() {
         assertAccountCreation("Create Savings 12345678 5.2");
-        
+
     }
 
     @Test
     void create_account_with_10_apr_valid() {
         assertAccountCreation("Create Savings 12345678 10");
-        
+
     }
 
     @Test
@@ -121,25 +122,25 @@ public class CommandProcessorTest {
     @Test
     void savings_checking_noncase_sensitive_deposit_command_valid() {
         assertAccountDeposit("dEpOSiT 00000001 0");
-        
+
     }
 
     @Test
     void savings_checking_0_zero_amount_deposited_valid() {
         assertAccountDeposit("Deposit 00000001 0");
-        
+
     }
 
     @Test
     void savings_checking_float_amount_deposited_valid() {
         assertAccountDeposit("Deposit 00000001 500.50");
-        
+
     }
 
     @Test
     void savings_2500_max_amount_deposited_valid() {
         assertAccountDeposit("Deposit 00000001 2500");
-        
+
     }
 
     @Test

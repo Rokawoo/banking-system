@@ -17,8 +17,8 @@ public class MasterControl {
     public List<String> start(List<String> input) {
         for (String command : input) {
             if (commandValidator.validate(command)) {
-                //store command to account
                 commandProcessor.process(command);
+                commandHistory.storeValidTransactionCommand(command);
             } else {
                 commandHistory.storeInvalidCommand(command);
             }
