@@ -11,7 +11,8 @@ class CreateValidator extends CommandValidatorBase {
 
         String accountType = commandData[1].toLowerCase(), accountId = commandData[2], aprStr = commandData[3];
 
-        if (!ValidationUtils.isValidInt(accountId) || !ValidationUtils.isValidFloat(aprStr) || !ValidationUtils.isValidAccountId(accountId)) return false;
+        if (!ValidationUtils.isValidInt(accountId) || !ValidationUtils.isValidFloat(aprStr) || !ValidationUtils.isValidAccountId(accountId))
+            return false;
 
         float apr = Float.parseFloat(aprStr);
 
