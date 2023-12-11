@@ -34,20 +34,17 @@ public abstract class Account {
 
     public void deposit(double depositAmount) {
         this.balance += depositAmount;
-        this.balance = Double.parseDouble(df.format(this.balance));
     }
 
     public double withdraw(double withdrawAmount) {
         double actualWithdrawal = Math.min(withdrawAmount, this.balance);
         this.balance -= actualWithdrawal;
-        this.balance = Double.parseDouble(df.format(this.balance));
 
         if (this.balance < 0) {
             this.balance = 0;
         }
 
-        actualWithdrawal = Double.parseDouble(df.format(actualWithdrawal));
-        return actualWithdrawal;
+        return Double.parseDouble(df.format(actualWithdrawal));
     }
 
     public abstract boolean isValidDeposit(float amount);

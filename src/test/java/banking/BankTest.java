@@ -127,8 +127,8 @@ public class BankTest {
         bank.addAccount("00000002", cd);
         bank.accrueAPR(3);
 
-        assertEquals(1000 + 1000 * (0.03 / 12) * 3, checking.getBalance());
-        assertEquals(100 + 100 * (0.05 / 12) * 3 * 4, cd.getBalance());
+        assertEquals(1007.52, checking.getBalance());
+        assertEquals(105.12, cd.getBalance());
     }
 }
 

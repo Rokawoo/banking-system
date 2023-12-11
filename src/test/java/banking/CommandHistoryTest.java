@@ -10,10 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommandHistoryTest {
     CommandHistory commandHistory;
+    Bank bank;
+    Savings savings;
+    Checking checking;
 
     @BeforeEach
     void setup() {
-        commandHistory = new CommandHistory(new Bank());
+        bank = new Bank();
+        savings = new Savings(9);
+        checking = new Checking(9);
+        bank.addAccount("00000001", savings);
+        bank.addAccount("00000002", checking);
+        commandHistory = new CommandHistory(bank);
+    }
+
+    private void assertValidTransactionCommandStored(String command, boolean expectedResult) {
+        boolean actualResult = commandHistory.storeValidTransactionCommand(command);
+        assertEquals(expectedResult, actualResult);
     }
 
     private void assertInvalidCommandStored(String command, boolean expectedResult) {
@@ -49,9 +62,9 @@ public class CommandHistoryTest {
     }
 
     @Test
-    void store_two_valid_commands_invalid() {
+    void store_two_valid_commands_in_invalid_list_invalid() {
         assertInvalidCommandStored("Create Savings 12345678 0", false);
-        assertInvalidCommandStored("Create Savings 00000001 0", false);
+        assertInvalidCommandStored("Create Savings 87654321 0", false);
     }
 
     @Test
@@ -68,11 +81,48 @@ public class CommandHistoryTest {
 
     @Test
     void retrieve_all_stored_commands_valid() {
-        List<String> expectedCommands = Arrays.asList("Create Investment 12345678 0", "Create Investment 12345678 0");
+        List<String> expectedCommands = Arrays.asList("Checking 00000002 0.00 9.00", "Savings 00000001 0.00 9.00", "Create Investment 12345678 0", "Create Investment 12345678 0");
 
         storeMultipleCommands("Create Investment 12345678 0", 2);
         List<String> actualCommands = commandHistory.retrieveAllStored();
 
         assertEquals(expectedCommands, actualCommands);
     }
+
+    @Test
+    void store_valid_deposit_command_valid() {
+        assertValidTransactionCommandStored("Deposit 00000001 500", true);
+    }
+
+    @Test
+    void store_valid_withdraw_command_valid() {
+        assertValidTransactionCommandStored("Withdraw 00000001 200", true);
+    }
+
+    @Test
+    void store_valid_transfer_command_valid() {
+        assertValidTransactionCommandStored("Transfer 00000001 00000002 300", true);
+    }
+
+    @Test
+    void store_invalid_deposit_command_in_valid_list_invalid() {
+        assertValidTransactionCommandStored("Deposit 00000001 -500", false);
+    }
+
+    @Test
+    void store_invalid_withdraw_command_invalid() {
+        assertValidTransactionCommandStored("Withdraw 00000002 2000", false);
+    }
+
+    @Test
+    void store_invalid_transfer_command_invalid() {
+        assertValidTransactionCommandStored("Transfer 00000001 00000002 -300", false);
+    }
+
+    @Test
+    void store_valid_and_invalid_deposit_commands_valid() {
+        assertValidTransactionCommandStored("Deposit 00000001 500", true);
+        assertValidTransactionCommandStored("Deposit 00000001 -200", false);
+    }
 }
+

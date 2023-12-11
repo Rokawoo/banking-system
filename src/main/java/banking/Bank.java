@@ -70,8 +70,7 @@ public class Bank {
     public void accrueAPR(int monthsPassed) {
         for (Map.Entry<String, Account> entry : accounts.entrySet()) {
             Account account = entry.getValue();
-            double totalInterest = AprUtils.calculateTotalInterest(account, monthsPassed);
-            account.deposit(totalInterest);
+            AprUtils.calculateTotalInterest(account, monthsPassed);
         }
     }
 

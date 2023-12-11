@@ -5,32 +5,31 @@ public class AprUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static double calculateTotalInterest(Account account, int monthsPassed) {
+    public static void calculateTotalInterest(Account account, int monthsPassed) {
         double apr = account.getApr() / 100;
         double monthlyRate = apr / 12;
-        double totalInterest = 0.0;
 
         for (int monthAccrued = 0; monthAccrued < monthsPassed; ++monthAccrued) {
-            totalInterest += (isCD(account) ? calculateCDInterest(account, monthlyRate) : calculateRegularInterest(account, monthlyRate));
+            if (isCD(account)) {
+                calculateCDInterest(account, monthlyRate);
+            } else {
+                calculateRegularInterest(account, monthlyRate);
+            }
         }
-
-        return totalInterest;
     }
 
     private static boolean isCD(Account account) {
-        return "cd".equals(account.getType());
+        return account.getType().equals("cd");
     }
 
-    private static double calculateCDInterest(Account account, double monthlyRate) {
-        double totalInterest = 0.0;
+    private static void calculateCDInterest(Account account, double monthlyRate) {
         for (int i = 0; i < 4; ++i) {
-            totalInterest += account.getBalance() * monthlyRate;
+            account.deposit(account.getBalance() * monthlyRate);
         }
-        return totalInterest;
     }
 
-    private static double calculateRegularInterest(Account account, double monthlyRate) {
-        return account.getBalance() * monthlyRate;
+    private static void calculateRegularInterest(Account account, double monthlyRate) {
+        account.deposit(account.getBalance() * monthlyRate);
     }
 }
 

@@ -10,15 +10,18 @@ public class CommandProcessorTest {
     CommandProcessor commandProcessor;
     Bank bank;
     Savings savings;
+    CD cd;
     Checking checking;
 
     @BeforeEach
     void setup() {
-        savings = new Savings(1.4);
-        checking = new Checking(1.4);
+        savings = new Savings(1);
+        checking = new Checking(1);
+        cd = new CD(2.1, 2000);
         bank = new Bank();
         bank.addAccount("00000001", savings);
         bank.addAccount("00000002", checking);
+        bank.addAccount("00000003", cd);
         commandProcessor = new CommandProcessor(bank);
     }
 
@@ -54,6 +57,50 @@ public class CommandProcessorTest {
         commandProcessor.process(command);
         double accountBalanceAfterDeposit = depositedAccount.getBalance();
         assertEquals(accountBalanceBeforeDeposit + depositBalance, accountBalanceAfterDeposit);
+    }
+
+    private void assertAccountWithdrawal(String command) {
+        String[] commandData = getCommandData(command);
+        String accountId = commandData[1];
+        float withdrawAmount = Float.parseFloat(commandData[2]);
+
+        Account withdrawnAccount = bank.retrieveAccount(accountId);
+        double accountBalanceBeforeWithdrawal = withdrawnAccount.getBalance();
+        commandProcessor.process(command);
+        double accountBalanceAfterWithdrawal = withdrawnAccount.getBalance();
+        double expectedBalance = Math.max(accountBalanceBeforeWithdrawal - withdrawAmount, 0);
+
+        assertEquals(expectedBalance, accountBalanceAfterWithdrawal);
+    }
+
+    private void assertTransfer(String command) {
+        String[] commandData = getCommandData(command);
+        String fromAccountId = commandData[1];
+        String toAccountId = commandData[2];
+        float transferAmount = Float.parseFloat(commandData[3]);
+
+        Account fromAccount = bank.retrieveAccount(fromAccountId);
+        Account toAccount = bank.retrieveAccount(toAccountId);
+
+        double fromAccountBalanceBeforeTransfer = fromAccount.getBalance();
+        double toAccountBalanceBeforeTransfer = toAccount.getBalance();
+
+        commandProcessor.process(command);
+
+        double fromAccountBalanceAfterTransfer = fromAccount.getBalance();
+        double toAccountBalanceAfterTransfer = toAccount.getBalance();
+        double expectedFromAccountBalance = Math.max(fromAccountBalanceBeforeTransfer - transferAmount, 0);
+
+        assertEquals(expectedFromAccountBalance, fromAccountBalanceAfterTransfer);
+        assertEquals(toAccountBalanceBeforeTransfer + transferAmount, toAccountBalanceAfterTransfer);
+    }
+
+    private void assertPassTime(String command, double expectedSavingsBalance, double expectedCheckingBalance, double expectedCDBalance) {
+        commandProcessor.process(command);
+
+        assertEquals(expectedSavingsBalance, bank.retrieveAccount("00000001").getBalance());
+        assertEquals(expectedCheckingBalance, bank.retrieveAccount("00000002").getBalance());
+        assertEquals(expectedCDBalance, bank.retrieveAccount("00000003").getBalance());
     }
 
     // Account Creation
@@ -155,5 +202,120 @@ public class CommandProcessorTest {
         assertAccountDeposit("Deposit 00000002 500");
     }
 
+    // Withdraw Tests
+    @Test
+    void savings_checking_noncase_sensitive_withdraw_command_valid() {
+        assertAccountWithdrawal("wItHDrAW 00000001 0");
+    }
+
+    @Test
+    void savings_checking_0_zero_amount_withdrawn_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 0");
+    }
+
+    @Test
+    void savings_checking_float_amount_withdrawn_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 500.50");
+    }
+
+    @Test
+    void savings_checking_max_amount_withdrawn_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 2500");
+    }
+
+    @Test
+    void savings_checking_consecutive_amount_withdrawn_to_same_account_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 500.50");
+        assertAccountWithdrawal("Withdraw 00000001 500");
+    }
+
+    @Test
+    void savings_checking_consecutive_amount_withdrawn_to_different_account_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 500.50");
+        assertAccountWithdrawal("Withdraw 00000002 500");
+    }
+
+    // Transfer Tests
+    @Test
+    void transfer_from_savings_to_checking_valid() {
+        bank.bankDeposit("00000001", 500);
+        assertTransfer("Transfer 00000001 00000002 500");
+    }
+
+    @Test
+    void transfer_from_checking_to_savings_valid() {
+        bank.bankDeposit("00000002", 500);
+        assertTransfer("Transfer 00000002 00000001 200");
+    }
+
+    @Test
+    void transfer_with_zero_amount_valid() {
+        assertTransfer("Transfer 00000001 00000002 0");
+    }
+
+    @Test
+    void transfer_with_float_amount_valid() {
+        bank.bankDeposit("00000001", 300.50);
+        assertTransfer("Transfer 00000001 00000002 300.50");
+    }
+
+    @Test
+    void transfer_with_max_amount_valid() {
+        bank.bankDeposit("00000001", 2500);
+        assertTransfer("Transfer 00000001 00000002 2500");
+    }
+
+    @Test
+    void transfer_with_lacking_funds_amount_valid() {
+        bank.bankDeposit("00000001", 100);
+        commandProcessor.process("Transfer 00000001 00000002 500");
+        double actual = bank.retrieveAccount("00000002").getBalance();
+
+        assertEquals(100, actual);
+    }
+
+    @Test
+    void transfer_from_savings_to_checking_consecutive_valid() {
+        bank.bankDeposit("00000001", 800);
+        assertTransfer("Transfer 00000001 00000002 500");
+        assertTransfer("Transfer 00000001 00000002 300");
+    }
+
+    // Pass Time Tests
+    @Test
+    void pass_time_with_1_month() {
+        bank.bankDeposit("00000001", 500);
+        bank.bankDeposit("00000002", 100);
+        assertPassTime("Pass 1", 500.42, 100.08, 2014.04);
+    }
+
+    @Test
+    void pass_time_with_12_months() {
+        bank.bankDeposit("00000001", 500);
+        bank.bankDeposit("00000002", 100);
+        assertPassTime("Pass 12", 505.02, 101.00, 2175.10);
+    }
+
+    @Test
+    void close_zero_accounts() {
+        commandProcessor.process("Pass 1");
+        int actual = bank.getNumberOfAccounts();
+        assertEquals(1, actual);
+    }
+
+    @Test
+    void deduct_minimum_fee_from_accounts() {
+        bank.bankDeposit("00000001", 75);
+        bank.bankDeposit("00000002", 50);
+        commandProcessor.process("Pass 1");
+        double actual = bank.retrieveAccount("00000001").getBalance();
+        double actual2 = bank.retrieveAccount("00000002").getBalance();
+        assertEquals(50.04, actual);
+        assertEquals(25.02, actual2);
+    }
+
 }
+
+
+
 
