@@ -73,18 +73,16 @@ public class Bank {
             double apr = account.getApr() / 100;
 
             double totalInterest = 0.0;
+            double monthlyRate = apr / 12;
 
-            if (account.getType().equals("cd")) {
-                for (int month = 0; month < monthsPassed; ++month) {
+
+            for (int monthAccrued = 0; monthAccrued < monthsPassed; ++monthAccrued) {
+                if (account.getType().equals("cd")) {
                     for (int i = 0; i < 4; ++i) {
-                        double monthlyRate = apr / 12;
                         double interest = account.getBalance() * monthlyRate;
                         totalInterest += interest;
                     }
-                }
-            } else {
-                for (int month = 0; month < monthsPassed; ++month) {
-                    double monthlyRate = apr / 12;
+                } else {
                     double interest = account.getBalance() * monthlyRate;
                     totalInterest += interest;
                 }
