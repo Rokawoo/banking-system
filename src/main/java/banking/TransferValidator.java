@@ -7,43 +7,40 @@ class TransferValidator extends CommandValidatorBase {
 
     @Override
     public boolean validate(String[] commandData) {
-        if (commandData.length != 4) {
-            return false;
-        }
-
+        boolean isValid = commandData.length == 4;
         String fromAccountId = commandData[1];
         String toAccountId = commandData[2];
         String balanceToTransferStr = commandData[3];
 
         if (!ValidationUtils.isValidInt(fromAccountId) || !ValidationUtils.isValidInt(toAccountId) || !ValidationUtils.isValidFloat(balanceToTransferStr)) {
-            return false;
+            isValid = false;
         }
 
         if (!ValidationUtils.isValidAccountId(fromAccountId) || !ValidationUtils.isValidAccountId(toAccountId)) {
-            return false;
+            isValid = false;
         }
 
         if (fromAccountId.equals(toAccountId)) {
-            return false;
+            isValid = false;
         }
 
         if (!ValidationUtils.accountExists(bank, fromAccountId) || !ValidationUtils.accountExists(bank, toAccountId)) {
-            return false;
+            isValid = false;
         }
 
         Account fromAccount = bank.retrieveAccount(fromAccountId);
         Account toAccount = bank.retrieveAccount(toAccountId);
 
         if (fromAccount == null || toAccount == null || fromAccount.getType().equals("cd") || toAccount.getType().equals("cd")) {
-            return false;
+            isValid = false;
         }
 
         float amount = Float.parseFloat(balanceToTransferStr);
 
-        if (amount < 0) {
-            return false;
+        if (amount < 0 || (!fromAccount.isValidWithdraw(amount, bank.getTime()) && !toAccount.isValidDeposit(amount))) {
+            isValid = false;
         }
 
-        return fromAccount.isValidWithdraw(amount, bank.getTime()) && toAccount.isValidDeposit(amount);
+        return isValid;
     }
 }

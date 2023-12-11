@@ -42,6 +42,10 @@ class CommandValidatorBase {
 }
 
 class ValidationUtils {
+    private ValidationUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static boolean isValidInt(String str) {
         try {
             Integer.parseInt(str);

@@ -22,5 +22,7 @@ public class Checking extends Account {
 
     @Override
     public void updateWithdrawHold(int currentMonth) {
+        // The updateWithdrawHold method is intentionally left empty for functionality
+        // Checking accounts do not have withdraw holds
     }
 }

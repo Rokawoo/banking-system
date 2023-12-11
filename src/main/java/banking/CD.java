@@ -22,5 +22,7 @@ public class CD extends Account {
 
     @Override
     public void updateWithdrawHold(int currentMonth) {
+        // The updateWithdrawHold method is intentionally left empty for functionality
+        // CD accounts have withdraw holds 12 months after their creation
     }
 }

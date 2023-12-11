@@ -7,19 +7,16 @@ public class WithdrawValidator extends CommandValidatorBase {
 
     @Override
     public boolean validate(String[] commandData) {
-        if (commandData.length != 3) {
-            return false;
-        }
-
+        boolean isValid = commandData.length == 3;
         String accountId = commandData[1];
         String balanceToWithdrawStr = commandData[2];
 
         if (!ValidationUtils.isValidInt(accountId) || !ValidationUtils.isValidFloat(balanceToWithdrawStr)) {
-            return false;
+            isValid = false;
         }
 
         if (!ValidationUtils.isValidAccountId(accountId) && ValidationUtils.accountExists(bank, accountId)) {
-            return false;
+            isValid = false;
         }
 
         Account account = bank.retrieveAccount(accountId);
@@ -30,6 +27,10 @@ public class WithdrawValidator extends CommandValidatorBase {
 
         float balanceToWithdraw = Float.parseFloat(balanceToWithdrawStr);
 
-        return account.isValidWithdraw(balanceToWithdraw, bank.getTime());
+        if (!account.isValidWithdraw(balanceToWithdraw, bank.getTime())) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }
