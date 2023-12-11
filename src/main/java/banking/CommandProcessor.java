@@ -26,14 +26,12 @@ public class CommandProcessor {
     }
 }
 
-class CommandProcessorBase {
+abstract class CommandProcessorBase {
     protected Bank bank;
 
     protected CommandProcessorBase(Bank bank) {
         this.bank = bank;
     }
 
-    public boolean process(String[] commandData) {
-        return false;
-    }
+    public abstract boolean process(String[] commandData);
 }

@@ -29,16 +29,14 @@ public class CommandValidator {
     }
 }
 
-class CommandValidatorBase {
+abstract class CommandValidatorBase {
     protected Bank bank;
 
     protected CommandValidatorBase(Bank bank) {
         this.bank = bank;
     }
 
-    public boolean validate(String[] commandData) {
-        return false;
-    }
+    public abstract boolean validate(String[] commandData);
 }
 
 class ValidationUtils {
