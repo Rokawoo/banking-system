@@ -3,17 +3,19 @@ package banking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankTest {
     Bank bank;
+    Account savings;
     Account checking;
     Account cd;
 
     @BeforeEach
     public void setUp() {
         bank = new Bank();
-        checking = new Checking(9.8);
+        savings = new Savings(2.8);
+        checking = new Checking(3.0);
         cd = new CD(5, 100);
     }
 
@@ -93,5 +95,42 @@ public class BankTest {
 
         assertEquals(49.50, actual);
     }
+
+    @Test
+    public void close_zero_balance_accounts_removes_accounts_correctly() {
+        bank.addAccount("00000001", checking);
+        bank.addAccount("00000003", savings);
+
+        assertEquals(2, bank.getNumberOfAccounts());
+
+        bank.closeZeroBalanceAccounts();
+
+        assertEquals(0, bank.getNumberOfAccounts());
+    }
+
+    @Test
+    public void apply_minimum_balance_fee_correctly() {
+        bank.addAccount("00000001", checking);
+        bank.bankDeposit("00000001", 75);
+        bank.addAccount("00000003", savings);
+        bank.bankDeposit("00000003", 150);
+        bank.applyMinimumBalanceFee();
+
+        assertEquals(50, checking.getBalance());
+        assertEquals(150, savings.getBalance());
+    }
+
+    @Test
+    public void accrue_apr_correctly() {
+        bank.addAccount("00000001", checking);
+        bank.bankDeposit("00000001", 1000);
+        bank.addAccount("00000002", cd);
+        bank.accrueAPR(3);
+
+        assertEquals(1007.52, checking.getBalance());
+        assertEquals(105.12, cd.getBalance());
+    }
 }
+
+
 

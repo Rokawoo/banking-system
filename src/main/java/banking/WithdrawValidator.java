@@ -1,7 +1,7 @@
 package banking;
 
-public class DepositValidator extends CommandValidatorBase {
-    public DepositValidator(Bank bank) {
+public class WithdrawValidator extends CommandValidatorBase {
+    public WithdrawValidator(Bank bank) {
         super(bank);
     }
 
@@ -12,9 +12,9 @@ public class DepositValidator extends CommandValidatorBase {
         }
 
         String accountId = commandData[1];
-        String balanceToDepositStr = commandData[2];
+        String balanceToWithdrawStr = commandData[2];
 
-        if (!ValidationUtils.validateAccountAndBalance(accountId, balanceToDepositStr, bank)) {
+        if (!ValidationUtils.validateAccountAndBalance(accountId, balanceToWithdrawStr, bank)) {
             return false;
         }
 
@@ -24,8 +24,8 @@ public class DepositValidator extends CommandValidatorBase {
             return false;
         }
 
-        float balanceToDeposit = Float.parseFloat(balanceToDepositStr);
+        float balanceToWithdraw = Float.parseFloat(balanceToWithdrawStr);
 
-        return account.isValidDeposit(balanceToDeposit);
+        return account.isValidWithdraw(balanceToWithdraw, bank.getTime());
     }
 }

@@ -9,10 +9,13 @@ public class CommandProcessor {
     public CommandProcessor(Bank bank) {
         commandProcessors.put("create", new CreateProcessor(bank));
         commandProcessors.put("deposit", new DepositProcessor(bank));
+        commandProcessors.put("withdraw", new WithdrawProcessor(bank));
+        commandProcessors.put("transfer", new TransferProcessor(bank));
+        commandProcessors.put("pass", new PassTimeProcessor(bank));
     }
 
-    public void process(String commandToprocess) {
-        String[] parts = commandToprocess.split("\\s+");
+    public void process(String commandToProcess) {
+        String[] parts = commandToProcess.split("\\s+");
         String action = parts[0].toLowerCase();
 
         CommandProcessorBase Processor = commandProcessors.get(action);
@@ -23,14 +26,12 @@ public class CommandProcessor {
     }
 }
 
-class CommandProcessorBase {
+abstract class CommandProcessorBase {
     protected Bank bank;
 
     protected CommandProcessorBase(Bank bank) {
         this.bank = bank;
     }
 
-    public boolean process(String[] commandData) {
-        return false;
-    }
+    public abstract boolean process(String[] commandData);
 }

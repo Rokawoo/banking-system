@@ -15,7 +15,7 @@ class CreateProcessor extends CommandProcessorBase {
         if (accountType.equals("savings")) {
             accountToCreate = new Savings(aprFloat);
             bank.addAccount(accountId, accountToCreate);
-        } else if (accountType.equals("checking")){
+        } else if (accountType.equals("checking")) {
             accountToCreate = new Checking(aprFloat);
             bank.addAccount(accountId, accountToCreate);
         } else {
@@ -23,6 +23,7 @@ class CreateProcessor extends CommandProcessorBase {
             accountToCreate = new CD(aprFloat, cdInitBalanceFloat);
             bank.addAccount(accountId, accountToCreate);
         }
+        accountToCreate.setInitialWithdrawHold(bank.getTime());
         return true;
     }
 }

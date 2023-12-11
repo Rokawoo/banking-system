@@ -18,8 +18,9 @@ public class MasterControl {
         for (String command : input) {
             if (commandValidator.validate(command)) {
                 commandProcessor.process(command);
+                commandHistory.storeValidTransactionCommand(command);
             } else {
-                commandHistory.storeCommand(command);
+                commandHistory.storeInvalidCommand(command);
             }
         }
         return commandHistory.retrieveAllStored();
