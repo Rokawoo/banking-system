@@ -14,11 +14,7 @@ public class WithdrawValidator extends CommandValidatorBase {
         String accountId = commandData[1];
         String balanceToWithdrawStr = commandData[2];
 
-        if (!ValidationUtils.isValidInt(accountId) || !ValidationUtils.isValidFloat(balanceToWithdrawStr)) {
-            return false;
-        }
-
-        if (!ValidationUtils.isValidAccountId(accountId) && ValidationUtils.accountExists(bank, accountId)) {
+        if (!ValidationUtils.validateAccountAndBalance(accountId, balanceToWithdrawStr, bank)) {
             return false;
         }
 

@@ -1,6 +1,6 @@
 package banking;
 
-class ValidationUtils {
+public class ValidationUtils {
     private ValidationUtils() {
         throw new IllegalStateException("Utility class");
     }
@@ -29,5 +29,16 @@ class ValidationUtils {
 
     public static boolean accountExists(Bank bank, String accountId) {
         return bank.retrieveAccount(accountId) != null;
+    }
+
+    public static boolean validateAccountAndBalance(String accountId, String balanceStr, Bank bank) {
+        return isValidInt(accountId)
+                && isValidFloat(balanceStr)
+                && isValidAccountId(accountId)
+                && accountExists(bank, accountId);
+    }
+
+    public static boolean validatePositiveAmount(float amount) {
+        return amount >= 0;
     }
 }
