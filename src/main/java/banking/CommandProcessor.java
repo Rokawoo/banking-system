@@ -33,5 +33,5 @@ abstract class CommandProcessorBase {
         this.bank = bank;
     }
 
-    public abstract boolean process(String[] commandData);
+    public abstract void process(String[] commandData);
 }

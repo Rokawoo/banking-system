@@ -6,7 +6,7 @@ class CreateProcessor extends CommandProcessorBase {
     }
 
     @Override
-    public boolean process(String[] commandData) {
+    public void process(String[] commandData) {
         String accountType = commandData[1].toLowerCase();
         String accountId = commandData[2];
         float aprFloat = Float.parseFloat(commandData[3]);
@@ -24,6 +24,5 @@ class CreateProcessor extends CommandProcessorBase {
             bank.addAccount(accountId, accountToCreate);
         }
         accountToCreate.setInitialWithdrawHold(bank.getTime());
-        return true;
     }
 }

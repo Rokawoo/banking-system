@@ -6,13 +6,12 @@ class PassTimeProcessor extends CommandProcessorBase {
     }
 
     @Override
-    public boolean process(String[] commandData) {
+    public void process(String[] commandData) {
         int monthAmount = Integer.parseInt(commandData[1]);
         bank.passTime(monthAmount);
 
         bank.closeZeroBalanceAccounts();
         bank.applyMinimumBalanceFee();
         bank.accrueAPR(monthAmount);
-        return true;
     }
 }

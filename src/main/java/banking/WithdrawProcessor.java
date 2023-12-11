@@ -6,11 +6,10 @@ class WithdrawProcessor extends CommandProcessorBase {
     }
 
     @Override
-    public boolean process(String[] commandData) {
+    public void process(String[] commandData) {
         String accountId = commandData[1];
         float balanceToDepositFloat = Float.parseFloat(commandData[2]);
         bank.bankWithdraw(accountId, balanceToDepositFloat);
         bank.bankUpdateWithdrawHold(accountId);
-        return true;
     }
 }
