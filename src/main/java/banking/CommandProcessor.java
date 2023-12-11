@@ -7,15 +7,15 @@ public class CommandProcessor {
     private final Map<String, CommandProcessorBase> commandProcessors = new HashMap<>();
 
     public CommandProcessor(Bank bank) {
-        commandProcessors.put("create", new CreateProcessor(bank));
+        commandProcessors.put("pass", new PassTimeProcessor(bank));
         commandProcessors.put("deposit", new DepositProcessor(bank));
+        commandProcessors.put("create", new CreateProcessor(bank));
         commandProcessors.put("withdraw", new WithdrawProcessor(bank));
         commandProcessors.put("transfer", new TransferProcessor(bank));
-        commandProcessors.put("pass", new PassTimeProcessor(bank));
     }
 
-    public void process(String commandToprocess) {
-        String[] parts = commandToprocess.split("\\s+");
+    public void process(String commandToProcess) {
+        String[] parts = commandToProcess.split("\\s+");
         String action = parts[0].toLowerCase();
 
         CommandProcessorBase Processor = commandProcessors.get(action);
