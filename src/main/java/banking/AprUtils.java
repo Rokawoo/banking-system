@@ -1,6 +1,10 @@
 package banking;
 
 public class AprUtils {
+    private AprUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static double calculateTotalInterest(Account account, int monthsPassed) {
         double apr = account.getApr() / 100;
         double monthlyRate = apr / 12;
