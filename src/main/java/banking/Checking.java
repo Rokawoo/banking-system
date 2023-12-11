@@ -1,6 +1,6 @@
 package banking;
 
-public class Checking extends Account{
+public class Checking extends Account {
     public Checking(double apr) {
         super("checking", apr, 0);
     }
@@ -16,7 +16,9 @@ public class Checking extends Account{
     }
 
     @Override
-    public void setInitialWithdrawHold(int currentMonth) {this.withdrawHoldUntil = -1;}
+    public void setInitialWithdrawHold(int currentMonth) {
+        this.withdrawHoldUntil = -1;
+    }
 
     @Override
     public void updateWithdrawHold(int currentMonth) {

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Bank {
 
-    private Map<String, Account> accounts;
+    private final Map<String, Account> accounts;
     private int month;
 
     Bank() {
@@ -35,10 +35,17 @@ public class Bank {
         return amountWithdrawn;
     }
 
-    public void bankUpdateWithdrawHold(String id) {accounts.get(id).updateWithdrawHold(this.month);}
+    public void bankUpdateWithdrawHold(String id) {
+        accounts.get(id).updateWithdrawHold(this.month);
+    }
 
-    public int getTime() {return this.month;}
-    public void passTime(int monthAmount) {this.month += monthAmount;}
+    public int getTime() {
+        return this.month;
+    }
+
+    public void passTime(int monthAmount) {
+        this.month += monthAmount;
+    }
 
     public void closeZeroBalanceAccounts() {
         Iterator<Map.Entry<String, Account>> iterator = accounts.entrySet().iterator();

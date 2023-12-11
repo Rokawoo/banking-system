@@ -16,10 +16,6 @@ public class PassTimeValidator extends CommandValidatorBase {
         }
 
         int monthAmount = Integer.parseInt(commandData[1]);
-        if (monthAmount >= 1 && monthAmount <= 60) {
-            return true;
-        } else {
-            return false;
-        }
+        return monthAmount >= 1 && monthAmount <= 60;
     }
 }

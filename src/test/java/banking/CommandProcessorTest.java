@@ -38,7 +38,7 @@ public class CommandProcessorTest {
         assertEquals(apr, createdAccount.getApr());
 
         if (accountType.equals("cd")) {
-            double balance = Float.parseFloat(commandData[4]);
+            double balance = Double.parseDouble(commandData[4]);
             assertEquals(balance, createdAccount.getBalance());
         }
     }

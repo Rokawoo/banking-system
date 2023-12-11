@@ -1,6 +1,6 @@
 package banking;
 
-public class CD extends Account{
+public class CD extends Account {
     public CD(double apr, double balance) {
         super("cd", apr, balance);
     }
@@ -11,10 +11,14 @@ public class CD extends Account{
     }
 
     @Override
-    public boolean isValidWithdraw(float amount, int currentMonth) {return amount == this.getBalance() && currentMonth >= this.withdrawHoldUntil;}
+    public boolean isValidWithdraw(float amount, int currentMonth) {
+        return amount == this.getBalance() && currentMonth >= this.withdrawHoldUntil;
+    }
 
     @Override
-    public void setInitialWithdrawHold(int currentMonth) {this.withdrawHoldUntil = currentMonth + 12;}
+    public void setInitialWithdrawHold(int currentMonth) {
+        this.withdrawHoldUntil = currentMonth + 12;
+    }
 
     @Override
     public void updateWithdrawHold(int currentMonth) {

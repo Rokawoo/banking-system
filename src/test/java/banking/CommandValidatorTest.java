@@ -22,6 +22,7 @@ public class CommandValidatorTest {
         bank.addAccount("00000001", savings);
         bank.addAccount("00000002", checking);
         bank.addAccount("00000003", cd);
+        cd.setInitialWithdrawHold(bank.getTime());
         commandValidator = new CommandValidator(bank);
     }
 
@@ -335,7 +336,7 @@ public class CommandValidatorTest {
 
     @Test
     void cd_and_passtime60_amount_withdrawn_valid() {
-        bank.passTime(60);
+        bank.passTime(999);
         boolean actual = commandValidator.validate("Withdraw 00000003 5000");
         assertTrue(actual);
     }

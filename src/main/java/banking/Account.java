@@ -1,12 +1,15 @@
 package banking;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Account {
-    private String type;
-    private double apr;
+    private final String type;
+    private final double apr;
     private double balance;
     protected int withdrawHoldUntil;
+    private final List<String> transactionHistoryList = new ArrayList<>();
 
     private static final DecimalFormat df = new DecimalFormat("#.00");
 
@@ -17,11 +20,17 @@ public abstract class Account {
         this.withdrawHoldUntil = -1;
     }
 
-    public String getType() { return type;}
+    public String getType() {
+        return type;
+    }
 
-    public double getApr() {return apr;}
+    public double getApr() {
+        return apr;
+    }
 
-    public double getBalance() {return Double.parseDouble(df.format(balance));}
+    public double getBalance() {
+        return Double.parseDouble(df.format(balance));
+    }
 
     public void deposit(double depositAmount) {
         this.balance += depositAmount;
@@ -31,6 +40,7 @@ public abstract class Account {
     public double withdraw(double withdrawAmount) {
         double actualWithdrawal = Math.min(withdrawAmount, this.balance);
         this.balance -= actualWithdrawal;
+        this.balance = Double.parseDouble(df.format(this.balance));
 
         if (this.balance < 0) {
             this.balance = 0;
@@ -47,4 +57,12 @@ public abstract class Account {
     public abstract void setInitialWithdrawHold(int currentMonth);
 
     public abstract void updateWithdrawHold(int currentMonth);
+
+    public void addCommandToTransactionHistory(String command) {
+        transactionHistoryList.add(command);
+    }
+
+    public List<String> retrieveTransactionHistory() {
+        return transactionHistoryList;
+    }
 }
