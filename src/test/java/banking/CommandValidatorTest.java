@@ -437,6 +437,24 @@ public class CommandValidatorTest {
         assertFalse(actual);
     }
 
+    @Test
+    void test_invalid_withdrawal_with_too_few_arguments() {
+        boolean actual = commandValidator.validate("Withdraw");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_withdrawal_with_too_many_arguments() {
+        boolean actual = commandValidator.validate("Withdraw 00000002 100 FOO");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_withdrawal_with_non_existent_account() {
+        boolean actual = commandValidator.validate("Withdraw 00002356 100");
+        assertFalse(actual);
+    }
+
     // Transfer
 
     @Test
