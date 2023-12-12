@@ -541,4 +541,22 @@ public class CommandValidatorTest {
         boolean actual = commandValidator.validate("Pass -1");
         assertFalse(actual);
     }
+
+    @Test
+    void test_invalid_pass_time_float_months() {
+        boolean actual = commandValidator.validate("Pass 1.5");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_pass_time_too_many_commands_months() {
+        boolean actual = commandValidator.validate("Pass 1 Hii 7");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_pass_time_too_few_commands_months() {
+        boolean actual = commandValidator.validate("Pass");
+        assertFalse(actual);
+    }
 }

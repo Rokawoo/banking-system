@@ -38,7 +38,7 @@ public class ValidationUtils {
                 && accountExists(bank, accountId);
     }
 
-    public static boolean validatePositiveAmount(float amount) {
+    public static boolean validatePositiveAmount(double amount) {
         return amount >= 0;
     }
 }
