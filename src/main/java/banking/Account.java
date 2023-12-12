@@ -49,9 +49,9 @@ public abstract class Account {
         return Double.parseDouble(df.format(actualWithdrawal));
     }
 
-    public abstract boolean isValidDeposit(float amount);
+    public abstract boolean isValidDeposit(double amount);
 
-    public abstract boolean isValidWithdraw(float amount, int currentMonth);
+    public abstract boolean isValidWithdraw(double amount, int currentMonth);
 
     public abstract void setInitialWithdrawHold(int currentMonth);
 

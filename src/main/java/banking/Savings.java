@@ -6,12 +6,12 @@ public class Savings extends Account {
     }
 
     @Override
-    public boolean isValidDeposit(float amount) {
+    public boolean isValidDeposit(double amount) {
         return amount >= 0 && amount <= 2500;
     }
 
     @Override
-    public boolean isValidWithdraw(float amount, int currentMonth) {
+    public boolean isValidWithdraw(double amount, int currentMonth) {
         return amount >= 0 && amount <= 1000 && currentMonth >= this.withdrawHoldUntil;
     }
 

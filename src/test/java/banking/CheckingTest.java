@@ -81,6 +81,24 @@ public class CheckingTest {
     }
 
     @Test
+    public void test_is_valid_withdraw_boundary_survived() {
+        Checking checking = new Checking(0.05);
+
+        assertTrue(checking.isValidWithdraw(0, 0));
+        assertTrue(checking.isValidWithdraw(400, 0));
+        assertTrue(checking.isValidWithdraw(200, 10));
+        assertTrue(checking.isValidWithdraw(200.50, 10));
+    }
+
+    @Test
+    public void test_is_valid_withdraw_boundary_not_survived() {
+        Checking checking = new Checking(0.05);
+
+        assertFalse(checking.isValidWithdraw(500, 0));
+        assertFalse(checking.isValidWithdraw(200, -2));
+    }
+
+    @Test
     public void update_withdraw_hold_sets_withdraw_hold_correctly_for_checking_account() {
         checking.updateWithdrawHold(8);
 

@@ -164,6 +164,14 @@ public class CommandProcessorTest {
 
     }
 
+    @Test
+    void creation_withdraw_hold_set_valid() {
+        bank.retrieveAccount("00000003").setInitialWithdrawHold(bank.getTime());
+        int actual = bank.retrieveAccount("00000003").getWithdrawHoldUntil();
+
+        assertEquals(bank.getTime() + 12, actual);
+    }
+
     // Deposit Tests
     @Test
     void savings_checking_noncase_sensitive_deposit_command_valid() {

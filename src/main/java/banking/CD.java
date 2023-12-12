@@ -6,12 +6,12 @@ public class CD extends Account {
     }
 
     @Override
-    public boolean isValidDeposit(float amount) {
+    public boolean isValidDeposit(double amount) {
         return false;
     }
 
     @Override
-    public boolean isValidWithdraw(float amount, int currentMonth) {
+    public boolean isValidWithdraw(double amount, int currentMonth) {
         return amount == this.getBalance() && currentMonth >= this.withdrawHoldUntil;
     }
 
