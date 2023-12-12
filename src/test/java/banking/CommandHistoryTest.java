@@ -133,5 +133,15 @@ public class CommandHistoryTest {
         assertEquals("Deposit 00000001 500", actual.get(0));
     }
 
+    @Test
+    void store_transfer_valid_and_get_them_from_account_valid() {
+        assertValidTransactionCommandStored("Transfer 00000001 00000002 300", true);
+        List<String> actual = bank.retrieveAccount("00000001").retrieveTransactionHistory();
+        List<String> actual2 = bank.retrieveAccount("00000002").retrieveTransactionHistory();
+
+        assertEquals("Transfer 00000001 00000002 300", actual.get(0));
+        assertEquals("Transfer 00000001 00000002 300", actual2.get(0));
+    }
+
 }
 
