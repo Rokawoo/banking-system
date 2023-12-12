@@ -522,6 +522,12 @@ public class CommandValidatorTest {
     }
 
     @Test
+    void test_invalid_pass_time_999_months() {
+        boolean actual = commandValidator.validate("Pass 61");
+        assertFalse(actual);
+    }
+
+    @Test
     void test_valid_pass_time_multiple_iterations() {
         boolean actual1 = commandValidator.validate("Pass 6");
         assertTrue(actual1);

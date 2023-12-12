@@ -234,6 +234,13 @@ public class CommandProcessorTest {
         assertAccountWithdrawal("Withdraw 00000002 500");
     }
 
+    @Test
+    void savings_withdraw_hold_updated_valid() {
+        assertAccountWithdrawal("Withdraw 00000001 0");
+        int actual = bank.retrieveAccount("00000001").getWithdrawHoldUntil();
+        assertEquals(bank.getTime() + 1, actual);
+    }
+
     // Transfer Tests
     @Test
     void transfer_from_savings_to_checking_valid() {
@@ -280,7 +287,28 @@ public class CommandProcessorTest {
         assertTransfer("Transfer 00000001 00000002 300");
     }
 
+    @Test
+    void transfer_withdraw_hold_updated_valid() {
+        commandProcessor.process("Transfer 00000001 00000002 0");
+        int actual = bank.retrieveAccount("00000001").getWithdrawHoldUntil();
+        assertEquals(bank.getTime() + 1, actual);
+    }
+
     // Pass Time Tests
+    @Test
+    void pass_time_with_1_month_updates_bank_time() {
+        commandProcessor.process("Pass 1");
+        int actual = bank.getTime();
+        assertEquals(1, actual);
+    }
+
+    @Test
+    void pass_time_with_60_month_updates_bank_time() {
+        commandProcessor.process("Pass 60");
+        int actual = bank.getTime();
+        assertEquals(60, actual);
+    }
+
     @Test
     void pass_time_with_1_month() {
         bank.bankDeposit("00000001", 500);
