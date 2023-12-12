@@ -3,7 +3,8 @@ package banking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CommandProcessorTest {
     CommandProcessor commandProcessor;
@@ -165,11 +166,19 @@ public class CommandProcessorTest {
     }
 
     @Test
-    void creation_withdraw_hold_set_valid() {
+    void creation_withdraw_hold_set_cd_valid() {
         bank.retrieveAccount("00000003").setInitialWithdrawHold(bank.getTime());
         int actual = bank.retrieveAccount("00000003").getWithdrawHoldUntil();
 
         assertEquals(bank.getTime() + 12, actual);
+    }
+
+    @Test
+    void creation_withdraw_hold_set_savings_checking_valid() {
+        bank.retrieveAccount("00000002").setInitialWithdrawHold(bank.getTime());
+        int actual = bank.retrieveAccount("00000002").getWithdrawHoldUntil();
+
+        assertEquals(-1, actual);
     }
 
     // Deposit Tests
@@ -228,6 +237,15 @@ public class CommandProcessorTest {
     @Test
     void savings_checking_max_amount_withdrawn_valid() {
         assertAccountWithdrawal("Withdraw 00000001 2500");
+    }
+
+    @Test
+    void savings_checking_greater_than_funds_amount_withdrawn_is_zero_valid() {
+        bank.bankWithdraw("00000001", 5000);
+        assertAccountWithdrawal("Withdraw 00000001 0");
+        double actual = bank.retrieveAccount("00000001").getBalance();
+
+        assertEquals(0, actual);
     }
 
     @Test

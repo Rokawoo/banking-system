@@ -124,5 +124,14 @@ public class CommandHistoryTest {
         assertValidTransactionCommandStored("Deposit 00000001 500", true);
         assertValidTransactionCommandStored("Deposit 00000001 -200", false);
     }
+
+    @Test
+    void store_valid_and_get_them_from_account_valid() {
+        assertValidTransactionCommandStored("Deposit 00000001 500", true);
+        List<String> actual = bank.retrieveAccount("00000001").retrieveTransactionHistory();
+
+        assertEquals("Deposit 00000001 500", actual.get(0));
+    }
+
 }
 

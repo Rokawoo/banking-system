@@ -37,7 +37,7 @@ public class CheckingTest {
 
     @Test
     public void is_valid_deposit_returns_false_for_exceeding_max_deposit_amount_in_checking_account() {
-        boolean actual = checking.isValidDeposit(1200);
+        boolean actual = checking.isValidDeposit(5000);
 
         assertFalse(actual);
     }
@@ -60,7 +60,7 @@ public class CheckingTest {
     @Test
     public void is_valid_withdraw_returns_false_for_exceeding_max_withdraw_amount_in_checking_account() {
         checking.setInitialWithdrawHold(6);
-        boolean actual = checking.isValidWithdraw(500, 10);
+        boolean actual = checking.isValidWithdraw(5000, 10);
 
         assertFalse(actual);
     }
@@ -71,13 +71,6 @@ public class CheckingTest {
         boolean actual = checking.isValidWithdraw(300, 5);
 
         assertTrue(actual);
-    }
-
-    @Test
-    public void set_initial_withdraw_hold_sets_withdraw_hold_correctly_for_checking_account() {
-        checking.setInitialWithdrawHold(6);
-
-        assertEquals(-1, checking.withdrawHoldUntil);
     }
 
     @Test
@@ -96,6 +89,21 @@ public class CheckingTest {
 
         assertFalse(checking.isValidWithdraw(500, 0));
         assertFalse(checking.isValidWithdraw(200, -2));
+    }
+
+    @Test
+    public void is_valid_withdraw_returns_false_for_withdraw_before_holds_expire_in_checking_account() {
+        checking.updateWithdrawHold(6);
+        boolean actual = checking.isValidWithdraw(800, 5);
+
+        assertFalse(actual);
+    }
+
+    @Test
+    public void set_initial_withdraw_hold_sets_withdraw_hold_correctly_for_checking_account() {
+        checking.setInitialWithdrawHold(6);
+
+        assertEquals(-1, checking.withdrawHoldUntil);
     }
 
     @Test

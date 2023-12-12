@@ -94,6 +94,12 @@ public class CommandValidatorTest {
     }
 
     @Test
+    void create_cd_account_valid_with_non_float_initial_balance_invalid() {
+        boolean actual = commandValidator.validate("Create CD 12345678 0 1awe000");
+        assertFalse(actual);
+    }
+
+    @Test
     void create_cd_account_valid_with_float_initial_balance_valid() {
         boolean actual = commandValidator.validate("Create CD 12345678 0 5000.20");
         assertTrue(actual);
@@ -284,6 +290,12 @@ public class CommandValidatorTest {
     @Test
     void checking_1001_over_max_amount_deposited_invalid() {
         boolean actual = commandValidator.validate("Deposit 00000002 1001");
+        assertFalse(actual);
+    }
+
+    @Test
+    void savings_500_amount_deposited_non_existent_account_invalid() {
+        boolean actual = commandValidator.validate("Deposit 00006633 500");
         assertFalse(actual);
     }
 
@@ -516,6 +528,20 @@ public class CommandValidatorTest {
     }
 
     @Test
+    void test_invalid_transfer_too_many_arguments() {
+        boolean actual = commandValidator.validate("Transfer 00000001 00000001 500 100 FOO");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_transfer_too_few_arguments() {
+        boolean actual = commandValidator.validate("Transfer");
+        assertFalse(actual);
+    }
+
+    // Pass Time
+
+    @Test
     void test_valid_pass_time_1_month() {
         boolean actual = commandValidator.validate("Pass 1");
         assertTrue(actual);
@@ -541,7 +567,7 @@ public class CommandValidatorTest {
 
     @Test
     void test_invalid_pass_time_999_months() {
-        boolean actual = commandValidator.validate("Pass 61");
+        boolean actual = commandValidator.validate("Pass 999");
         assertFalse(actual);
     }
 
@@ -557,6 +583,12 @@ public class CommandValidatorTest {
     @Test
     void test_invalid_pass_time_negative_months() {
         boolean actual = commandValidator.validate("Pass -1");
+        assertFalse(actual);
+    }
+
+    @Test
+    void test_invalid_pass_time_many_negative_months() {
+        boolean actual = commandValidator.validate("Pass -1000");
         assertFalse(actual);
     }
 

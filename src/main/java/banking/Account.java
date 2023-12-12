@@ -32,7 +32,9 @@ public abstract class Account {
         return Double.parseDouble(df.format(balance));
     }
 
-    public int getWithdrawHoldUntil() {return withdrawHoldUntil;}
+    public int getWithdrawHoldUntil() {
+        return withdrawHoldUntil;
+    }
 
     public void deposit(double depositAmount) {
         this.balance += depositAmount;
